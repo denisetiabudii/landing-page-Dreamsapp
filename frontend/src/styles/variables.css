@@ -1,0 +1,52 @@
+/* 1. Design tokens DREAMS */
+:root {
+  /* Brand colors */
+  --color-primary: #087bee;
+  --color-primary-hover: #0668cc;
+  --color-navy: #102d50;
+  --color-light-blue: #eaf4ff;
+
+  /* Neutral colors */
+  --color-white: #ffffff;
+  --color-background: #ffffff;
+  --color-surface: #f7faff;
+  --color-border: #e3eaf2;
+
+  /* Text colors */
+  --color-heading: #102d50;
+  --color-text: #526477;
+  --color-muted: #8492a3;
+
+  /* Typography */
+  --font-primary: 'Inter', sans-serif;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.75rem;
+
+  /* Layout */
+  --container-width: 1200px;
+  --navbar-height: 80px;
+
+  /* Spacing */
+  --section-spacing: 100px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 16px rgba(16, 45, 80, 0.06);
+  --shadow-md: 0 12px 32px rgba(16, 45, 80, 0.1);
+
+  /* Transitions */
+  --transition: 0.25s ease;
+}

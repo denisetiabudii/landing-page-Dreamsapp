@@ -1,0 +1,27 @@
+# dependencies & build output
+node_modules/
+dist/
+
+# environment & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+
+# database backups & dumps
+backup*.sql
+*.dump
+*.bak
+backups/
+
+# misc
+*.log
+daftar-file.txt
+.tsupgrader/
+# deployment archives
+*.tar.gz
+*.zip
+
+.deploy-preview-nginx.conf

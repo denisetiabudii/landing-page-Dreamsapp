@@ -1,0 +1,331 @@
+openapi: 3.0.3
+
+info:
+  title: DREAMS Demo Requests API
+  version: 1.1.0
+  description: |
+    API publik untuk pengajuan jadwal demo DREAMS melalui landing page.
+
+    Semua respons memakai format `{ "success": true, "data": ... }` untuk
+    keberhasilan dan `{ "success": false, "error": { "code", "message", "details?" } }`
+    untuk kegagalan.
+
+servers:
+  - url: http://localhost:3000
+    description: Server lokal
+
+tags:
+  - name: Health
+    description: Pemeriksaan status backend
+  - name: Demo Requests
+    description: Pengajuan jadwal demo
+  - name: WhatsApp
+    description: Tautan chat WhatsApp
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Memeriksa status backend
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Backend berjalan.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/demo-requests:
+    post:
+      tags:
+        - Demo Requests
+      summary: Membuat pengajuan demo
+      description: |
+        Memvalidasi ulang input di server, menyimpan pengajuan ke Google Sheets,
+        lalu mengembalikan data pengajuan beserta `whatsapp_url`.
+
+        Nomor WhatsApp boleh ditulis dengan awalan `0` (dianggap nomor Indonesia)
+        atau kode negara (`+62...`), dan disimpan dalam format internasional (E.164).
+
+        Respons ini tidak boleh disimpan di cache (`Cache-Control: no-store`).
+      operationId: createDemoRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoRequestInput'
+            example:
+              name: Deni
+              organization: Contoh Organisasi
+              email: deni@example.com
+              whatsapp: '081234567890'
+              preferred_time: Pagi
+      responses:
+        '201':
+          description: Pengajuan berhasil dibuat.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoRequestResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/whatsapp-link:
+    get:
+      tags:
+        - WhatsApp
+      summary: Mengambil tautan chat WhatsApp umum
+      description: |
+        Mengembalikan tautan `wa.me` ke nomor WhatsApp bisnis DREAMS dengan
+        pesan awal yang sudah terisi. Nomor diatur lewat variabel environment
+        `WHATSAPP_NUMBER`.
+      operationId: getWhatsappLink
+      responses:
+        '200':
+          description: Tautan berhasil dibuat.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhatsappLinkResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          description: Nomor WhatsApp belum dikonfigurasi (`WHATSAPP_NOT_CONFIGURED`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    DemoRequestInput:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - organization
+        - email
+        - whatsapp
+        - preferred_time
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+          description: Nama pengaju demo. Tidak boleh mengandung karakter kontrol.
+        organization:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Nama organisasi pengaju. Tidak boleh mengandung karakter kontrol.
+        email:
+          type: string
+          format: email
+          maxLength: 254
+          description: Email pengaju. Disimpan dalam huruf kecil.
+        whatsapp:
+          type: string
+          minLength: 1
+          maxLength: 30
+          description: |
+            Nomor WhatsApp pengaju. Hanya boleh berisi angka, spasi, `+`, `-`,
+            titik, dan kurung. Nomor tanpa kode negara dianggap nomor Indonesia.
+          example: '0812-3456-7890'
+        preferred_time:
+          $ref: '#/components/schemas/PreferredTime'
+
+    PreferredTime:
+      type: string
+      enum:
+        - Fleksibel
+        - Pagi
+        - Siang
+        - Sore
+
+    DemoRequestData:
+      type: object
+      required:
+        - id
+        - name
+        - organization
+        - email
+        - whatsapp
+        - preferred_time
+        - status
+        - created_at
+        - whatsapp_url
+      properties:
+        id:
+          type: integer
+          description: Nomor urut pengajuan pada spreadsheet.
+          example: 12
+        name:
+          type: string
+        organization:
+          type: string
+        email:
+          type: string
+          format: email
+        whatsapp:
+          type: string
+          description: Nomor dalam format internasional (E.164).
+          example: '+6281234567890'
+        preferred_time:
+          $ref: '#/components/schemas/PreferredTime'
+        status:
+          type: string
+          enum:
+            - new
+        created_at:
+          type: string
+          description: Waktu pengajuan dalam WIB, sebagai teks yang siap ditampilkan.
+          example: '9 November 2026 ( 10:30:00 WIB )'
+        whatsapp_url:
+          type: string
+          format: uri
+          nullable: true
+          description: |
+            Tautan `wa.me` ke nomor WhatsApp bisnis DREAMS dengan pesan konfirmasi
+            yang sudah terisi. `null` jika `WHATSAPP_NUMBER` belum dikonfigurasi.
+          example: 'https://wa.me/6281234567890?text=Halo%20DREAMS...'
+
+    DemoRequestResponse:
+      type: object
+      required:
+        - success
+        - data
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        data:
+          $ref: '#/components/schemas/DemoRequestData'
+
+    WhatsappLinkResponse:
+      type: object
+      required:
+        - success
+        - data
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        data:
+          type: object
+          required:
+            - whatsapp_url
+          properties:
+            whatsapp_url:
+              type: string
+              format: uri
+              example: 'https://wa.me/6281234567890?text=Halo%20DREAMS...'
+
+    HealthResponse:
+      type: object
+      required:
+        - success
+        - data
+      properties:
+        success:
+          type: boolean
+          enum:
+            - true
+        data:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum:
+                - ok
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+          enum:
+            - false
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: |
+                Kode error, misalnya `VALIDATION_ERROR`, `INVALID_JSON`,
+                `CORS_ORIGIN_DENIED`, `PAYLOAD_TOO_LARGE`, `RATE_LIMITED`,
+                `WHATSAPP_NOT_CONFIGURED`, `NOT_FOUND`, `INTERNAL_ERROR`.
+            message:
+              type: string
+            details:
+              type: object
+              nullable: true
+              additionalProperties: true
+              description: Untuk `VALIDATION_ERROR`, berisi `field` yang bermasalah.
+
+  responses:
+    ValidationError:
+      description: Input tidak valid, atau body bukan JSON yang benar (`INVALID_JSON`).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: VALIDATION_ERROR
+              message: Format email tidak valid.
+              details:
+                field: email
+
+    Forbidden:
+      description: Origin tidak diizinkan oleh kebijakan CORS.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    PayloadTooLarge:
+      description: Ukuran payload melebihi 16 KB.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    RateLimited:
+      description: Batas permintaan terlampaui (`RATE_LIMITED`).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ServerError:
+      description: Terjadi kesalahan internal pada backend.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

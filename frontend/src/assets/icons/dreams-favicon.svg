@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">DREAMS icon</title>
+  <desc id="desc">Three overlapping rounded ribbon shapes in a cyan-to-blue gradient.</desc>
+  <defs>
+    <linearGradient id="dreams-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#70E4DD"/>
+      <stop offset="42%" stop-color="#31B8D0"/>
+      <stop offset="72%" stop-color="#187DB8"/>
+      <stop offset="100%" stop-color="#07518E"/>
+    </linearGradient>
+    <linearGradient id="dreams-gradient-back" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#75E5DE"/>
+      <stop offset="55%" stop-color="#39BBD1"/>
+      <stop offset="100%" stop-color="#176FA9"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M112 384V224c0-34 19-62 52-78l57-27c38-18 62-5 76 22" stroke="url(#dreams-gradient-back)" stroke-width="24"/>
+    <path d="M168 393V239c0-33 19-57 51-72l57-27c37-17 62-3 75 24" stroke="url(#dreams-gradient)" stroke-width="24"/>
+    <path d="M224 397V257c0-25 12-42 36-51l87-34c27-11 43 4 43 31v72c0 34-18 57-49 69l-117 45" stroke="url(#dreams-gradient)" stroke-width="24"/>
+  </g>
+</svg>
