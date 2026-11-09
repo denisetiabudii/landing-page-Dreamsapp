@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { CheckCircle2, ArrowUpRight, CircleAlert } from "lucide-react";
-
+import { CheckCircle2, ArrowUpRight, CircleAlert, X } from "lucide-react";
 // =========================================
 // WHATSAPP ICON
 // =========================================
@@ -185,6 +184,52 @@ function DemoFormStatus({ status }) {
             #86efac 100%
           );
         }
+
+        /* CLOSE BUTTON */
+.dreams-status-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  color: #64748b;
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.dreams-status-close:hover {
+  color: #102d50;
+  background: #eef2f7;
+  border-color: #cbd5e1;
+
+  transform: rotate(90deg);
+}
+
+.dreams-status-close:focus-visible {
+  outline: 2px solid #087bee;
+  outline-offset: 2px;
+}
+
+.dreams-status-close:active {
+  transform: rotate(90deg) scale(0.95);
+}
 
         /* CONTENT */
         .dreams-status-content {
@@ -634,6 +679,16 @@ function DemoFormStatus({ status }) {
               isSuccess ? "dreams-status-accent--success" : ""
             }`}
           />
+          {/* CLOSE BUTTON */}
+          <button
+            type="button"
+            className="dreams-status-close"
+            onClick={handleClose}
+            aria-label="Tutup popup"
+            title="Tutup"
+          >
+            <X size={18} strokeWidth={2} />
+          </button>
 
           <div className="dreams-status-content">
             {/* STATUS VISUAL */}

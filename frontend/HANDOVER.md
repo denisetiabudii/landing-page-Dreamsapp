@@ -125,6 +125,29 @@ yang ditulis lewat API. Emailnya hanya memberi tahu ada perubahan dan menautkan
 ke spreadsheet, tidak memuat isi pengajuan. Jika perlu email berisi data
 pemohon, tambahkan Google Apps Script di spreadsheet atau kirim email dari
 backend.
+## Analytics dan SEO
+
+Di `.env` frontend (lihat `.env.example`):
+
+| Variabel | Keterangan |
+| --- | --- |
+| `VITE_SITE_URL` | Alamat situs final tanpa garis miring di akhir. Dipakai untuk canonical, `sitemap.xml`, dan gambar preview |
+| `VITE_GTM_ID` | ID Google Tag Manager (`GTM-XXXX`). Jika diisi, GA dan Clarity langsung diabaikan; pasang keduanya dari dalam GTM |
+| `VITE_GA_ID` | ID Google Analytics 4 (`G-XXXX`), hanya jika tidak memakai GTM |
+| `VITE_CLARITY_ID` | ID Microsoft Clarity, hanya jika tidak memakai GTM |
+
+Kosong berarti skrip tidak dimuat. Setelah `.env` diubah, jalankan `npm run build`
+ulang (nilai `VITE_*` tertanam saat build).
+
+- Jika memakai CSP, izinkan `googletagmanager.com`, `google-analytics.com`,
+  `analytics.google.com`, dan `clarity.ms` (termasuk subdomainnya).
+- GTM, GA, dan Clarity memakai cookie dan melacak pengunjung. Pertimbangkan banner
+  persetujuan dan kebijakan privasi sesuai UU PDP.
+- Meta SEO dan Open Graph ada di `frontend/index.html`. Semua halaman berbagi satu
+  set meta yang sama. Gambar preview ada di `frontend/public/og-image.jpg`
+  (1200x630, ganti dengan desain sendiri bila ada).
+- Preview WhatsApp dan Telegram disimpan cache. Setelah mengubah meta atau gambar,
+  uji dengan menambahkan `?v=2` pada link.
 ## Sebelum go-live
 
 - Pasang HTTPS dan header keamanan (Content-Security-Policy,
