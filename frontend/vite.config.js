@@ -21,7 +21,11 @@ function dreamsHtml(env) {
   const siteUrl = String(env.VITE_SITE_URL ?? '').trim().replace(/\/+$/, '')
   const gtm = cleanId(env.VITE_GTM_ID, GTM_RE, 'VITE_GTM_ID')
   const ga = gtm ? '' : cleanId(env.VITE_GA_ID, GA_RE, 'VITE_GA_ID')
-  const clarity = gtm ? '' : cleanId(env.VITE_CLARITY_ID, CLARITY_RE, 'VITE_CLARITY_ID')
+  const clarity = cleanId(
+  env.VITE_CLARITY_ID,
+  CLARITY_RE,
+  'VITE_CLARITY_ID',
+)
 
   return {
     name: 'dreams-html',
