@@ -1,16 +1,19 @@
 
 import { google } from 'googleapis'
 import { readFile } from 'node:fs/promises'
-import { resolve } from 'node:path'
-
-import { config } from '../config/env.mjs'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const backendDir = fileURLToPath(new URL('../../', import.meta.url))
-    const keyFilePath = resolve(backendDir, config.googleSheets.keyFile)
+import { config } from '../config/env.mjs'
+
 // =========================================
 // GOOGLE SHEETS CONFIGURATION
 // =========================================
+
+const backendDir = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../..',
+)
 
 const spreadsheetId = config.googleSheets.spreadsheetId
 const sheetName = config.googleSheets.sheetName
@@ -41,7 +44,7 @@ async function createGoogleSheetsClient() {
 
   if (!credentials && config.googleSheets.keyFile) {
     const keyFilePath = resolve(
-      process.cwd(),
+      backendDir,
       config.googleSheets.keyFile,
     )
 
@@ -154,26 +157,32 @@ export function createDemoRequestModel(sheetsClient) {
   // =========================================
   // CREATE DEMO REQUEST
   // =========================================
+
   // Cek header cukup sekali per proses
   let headersReady
+
   function ensureHeadersOnce(sheets) {
     headersReady ??= ensureHeaders(sheets).catch((error) => {
       headersReady = undefined
       throw error
     })
+
     return headersReady
   }
 
   // Antrean tulis: mencegah ID kembar dari permintaan bersamaan (satu proses)
   let queue = Promise.resolve()
+
   function enqueue(task) {
     const run = queue.then(task)
+
     queue = run.catch(() => {})
+
     return run
   }
 
   return {
-        async create(input) {
+    async create(input) {
       const sheets = await sheetsPromise
 
       await ensureHeadersOnce(sheets)

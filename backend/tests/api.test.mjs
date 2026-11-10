@@ -5,14 +5,24 @@ import assert from "node:assert/strict";
 // TEST ENVIRONMENT
 // =========================================
 
-process.env.GOOGLE_SHEETS_SPREADSHEET_ID ??= "test-spreadsheet-id";
-process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ??= "test@example.com";
-process.env.GOOGLE_PRIVATE_KEY ??= "test-private-key";
+process.env.NODE_ENV = "test";
+process.env.PORT = "3000";
 
-// Dipaksa agar tes tidak bergantung pada isi .env
-process.env.WHATSAPP_NUMBER = "6281234567890";
+process.env.GOOGLE_SHEETS_SPREADSHEET_ID = "test-spreadsheet-id";
+process.env.GOOGLE_SHEETS_SHEET_NAME = "Test Sheet";
+
+process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE = "";
+process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL = "test@example.com";
+process.env.GOOGLE_PRIVATE_KEY = "test-private-key";
+
+process.env.CORS_ORIGINS = "http://localhost:5173";
+
+process.env.RATE_LIMIT_WINDOW_MS = "900000";
 process.env.PUBLIC_RATE_LIMIT_MAX = "100";
 process.env.LINK_RATE_LIMIT_MAX = "100";
+
+process.env.WHATSAPP_NUMBER = "6281234567890";
+process.env.TRUST_PROXY = "0";
 
 // =========================================
 // IMPORT APP
@@ -271,6 +281,101 @@ describe("DREAMS Demo Request API", () => {
     assert.equal(response.status, 404);
   });
 });
+
+
+describe("CORS and Rate Limiting", () => {
+  const allowedOrigin = "http://localhost:5173";
+  const deniedOrigin = "https://untrusted.example";
+
+  it("should allow requests from configured origins", async () => {
+    const response = await fetch(`${baseUrl}/health`, {
+      headers: {
+        Origin: allowedOrigin,
+      },
+    });
+
+    assert.equal(response.status, 200);
+    assert.equal(
+      response.headers.get("access-control-allow-origin"),
+      allowedOrigin,
+    );
+  });
+
+  it("should reject requests from unconfigured origins", async () => {
+    const response = await fetch(`${baseUrl}/health`, {
+      headers: {
+        Origin: deniedOrigin,
+      },
+    });
+
+    const result = await response.json();
+
+    assert.equal(response.status, 403);
+    assert.equal(result.success, false);
+    assert.equal(result.error.code, "CORS_ORIGIN_DENIED");
+  });
+
+  it("should handle OPTIONS preflight requests", async () => {
+    const response = await fetch(`${baseUrl}/api/demo-requests`, {
+      method: "OPTIONS",
+      headers: {
+        Origin: allowedOrigin,
+        "Access-Control-Request-Method": "POST",
+        "Access-Control-Request-Headers": "content-type",
+      },
+    });
+
+    assert.equal(response.status, 204);
+    assert.equal(
+      response.headers.get("access-control-allow-origin"),
+      allowedOrigin,
+    );
+    assert.ok(
+      response.headers
+        .get("access-control-allow-methods")
+        ?.includes("POST"),
+    );
+  });
+
+  it("should rate limit POST /api/demo-requests", async () => {
+    let rateLimited = false;
+
+    for (let index = 0; index < 110; index += 1) {
+      const response = await postDemoRequest({});
+
+      if (response.status === 429) {
+        rateLimited = true;
+        break;
+      }
+    }
+
+    assert.equal(
+      rateLimited,
+      true,
+      "request yang melewati batas harus mendapat HTTP 429",
+    );
+  });
+
+  it("should rate limit GET /api/whatsapp-link", async () => {
+    let rateLimited = false;
+
+    for (let index = 0; index < 110; index += 1) {
+      const response = await fetch(`${baseUrl}/api/whatsapp-link`);
+
+      if (response.status === 429) {
+        rateLimited = true;
+        break;
+      }
+    }
+
+    assert.equal(
+      rateLimited,
+      true,
+      "request yang melewati batas harus mendapat HTTP 429",
+    );
+  });
+});
+
 
 describe("buildWhatsappUrl", () => {
   it("encodes the message text", () => {
