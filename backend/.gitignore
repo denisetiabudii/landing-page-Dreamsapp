@@ -1,7 +1,0 @@
-node_modules/
-.env
-npm-debug.log*
-
-
-# Google Service Account Credentials
-credentials/
