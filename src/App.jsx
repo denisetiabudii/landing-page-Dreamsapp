@@ -1,14 +1,17 @@
-import LandingPage from './components/pages/LandingPage'
-import DemoPage from './components/pages/DemoPage'
+import { lazy, Suspense } from 'react'
+
+const LandingPage = lazy(() => import('./components/pages/LandingPage'))
+const DemoPage = lazy(() => import('./components/pages/DemoPage'))
 
 function App() {
   const currentPath = window.location.pathname.replace(/\/+$/, '') || '/'
+  const CurrentPage = currentPath === '/demo' ? DemoPage : LandingPage
 
-  if (currentPath === '/demo') {
-    return <DemoPage />
-  }
-
-  return <LandingPage />
+  return (
+    <Suspense fallback={null}>
+      <CurrentPage />
+    </Suspense>
+  )
 }
 
 export default App
