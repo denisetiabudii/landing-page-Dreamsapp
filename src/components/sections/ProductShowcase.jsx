@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react'
 
 import {
   rfmHealthComparison,
@@ -99,7 +105,19 @@ const showcaseItems = [
 // KOMPONEN TAMPILAN PRODUK
 // =========================================
 
+// false di server dan saat hydrate, true sesudahnya.
+// Dipakai agar salinan kartu untuk animasi loop tidak ikut di HTML prerender.
+const subscribeNothing = () => () => {}
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
 function ProductShowcase() {
+  const hasHydrated = useSyncExternalStore(
+    subscribeNothing,
+    getClientSnapshot,
+    getServerSnapshot,
+  )
+
   const viewportRef = useRef(null)
   const trackRef = useRef(null)
 
@@ -1309,12 +1327,14 @@ function ProductShowcase() {
             )}
           </div>
 
-          {/* GRUP KARTU DUPLIKAT */}
-          <div className="showcase__group" aria-hidden="true">
-            {showcaseItems.map((item, index) =>
-              renderShowcaseCard(item, index, true),
-            )}
-          </div>
+          {/* GRUP KARTU DUPLIKAT (hanya di browser, untuk animasi loop) */}
+          {hasHydrated && (
+            <div className="showcase__group" aria-hidden="true">
+              {showcaseItems.map((item, index) =>
+                renderShowcaseCard(item, index, true),
+              )}
+            </div>
+          )}
         </div>
       </div>
 

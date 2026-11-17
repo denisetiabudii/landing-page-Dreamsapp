@@ -223,14 +223,14 @@ function Hero() {
               <Badge>Sistem Pengelolaan Donasi dan Organisasi</Badge>
 
               <h1 className="hero__title">
-                Kelola Donasi.
-                <span> Bangun Dampak Lebih Terarah.</span>
+                Aplikasi Pengelolaan Donasi
+                <span> untuk Lembaga Sosial</span>
               </h1>
 
               <p className="hero__description">
-                Sistem pengelolaan donasi dan operasional lembaga sosial untuk
-                membantu mengelola donatur, transaksi, prospek, hingga
-                penyaluran bantuan.
+                Kelola donasi dan bangun dampak lebih terarah. DREAMS membantu
+                lembaga sosial mengelola donatur, transaksi, prospek, hingga
+                penyaluran bantuan dalam satu sistem.
               </p>
 
               {/* TOMBOL HERO */}
@@ -408,8 +408,8 @@ function Hero() {
         .hero__title {
           margin-top: 24px;
           color: var(--color-heading);
-          font-size: clamp(2.5rem, 5vw, 4.25rem);
-          line-height: 1.1;
+          font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+          line-height: 1.12;
           font-weight: 800;
           letter-spacing: -0.055em;
         }
@@ -749,7 +749,7 @@ function Hero() {
 
           .hero__title {
             margin-top: 20px;
-            font-size: clamp(2.25rem, 6.67vw, 2.5rem);
+            font-size: clamp(2rem, 7.5vw, 2.4rem);
           }
 
           .hero__description {
