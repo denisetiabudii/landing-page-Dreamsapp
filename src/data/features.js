@@ -1,7 +1,8 @@
 // =========================================
 // DATA FITUR DREAMS
 // Dipakai oleh: ringkasan fitur di beranda, halaman /fitur (kartu bertumpuk),
-// dan halaman /tentang. `href` hanya ada untuk fitur yang punya halaman detail.
+// dan halaman /tentang. `href` = halaman detail tiap fitur (/fitur/:slug); `color` = warna kartu
+// (kartu bertumpuk di /fitur dan kartu isi di halaman detail).
 // =========================================
 
 import {
@@ -18,24 +19,23 @@ export const features = [
     icon: Users,
     title: 'Manajemen Donatur',
     href: '/fitur/manajemen-donatur',
-    detail:
-      'Kelola data donatur serta referensi pendukung seperti program, channel donasi, segmen, dan metode pembayaran, lalu lihat profil dan riwayat donasi setiap donatur.',
+    color: '#2563EB',
     description:
       'Kelola informasi donatur dan pantau aktivitas donasi dalam satu sistem.',
   },
   {
     icon: ReceiptText,
     title: 'Pengelolaan Transaksi',
-    detail:
-      'Kelola informasi transaksi donasi untuk membantu pencatatan dan pemantauan aktivitas donasi. Bukti donasi dapat dibuat otomatis dalam format PDF dengan desain yang dapat disesuaikan.',
+    href: '/fitur/pengelolaan-transaksi',
+    color: '#06B6D4',
     description:
       'Catat dan pantau transaksi donasi berdasarkan program dan metode pembayaran.',
   },
   {
     icon: UserSearch,
     title: 'Manajemen Prospek',
-    detail:
-      'Kelola data prospek dan calon donatur, termasuk informasi tindak lanjut dan respons.',
+    href: '/fitur/manajemen-prospek',
+    color: '#8B5CF6',
     description:
       'Kelola calon donatur, aktivitas tindak lanjut, serta respons prospek.',
   },
@@ -43,8 +43,7 @@ export const features = [
     icon: ChartNoAxesCombined,
     title: 'Analitik RFM',
     href: '/fitur/analitik-rfm',
-    detail:
-      'Gunakan dashboard dan analitik RFM untuk melihat aktivitas transaksi, pencapaian target, serta karakteristik donatur, termasuk segmentasi dan kesehatan database donatur.',
+    color: '#0D9488',
     description:
       'Kenali karakteristik donatur berdasarkan recency, frequency, dan monetary.',
   },
@@ -52,16 +51,15 @@ export const features = [
     icon: HandHeart,
     title: 'Pengelolaan Distribusi',
     href: '/fitur/distribusi-bantuan',
-    detail:
-      'Kelola data penyaluran bantuan sebagai bagian dari aktivitas lembaga, dalam sistem yang sama dengan data donasi.',
+    color: '#F97316',
     description:
       'Kelola data penyaluran bantuan sebagai bagian dari aktivitas lembaga.',
   },
   {
     icon: MessageCircle,
     title: 'Komunikasi WhatsApp',
-    detail:
-      'Kelola template pesan dan aktivitas WhatsApp Blast melalui modul yang tersedia.',
+    href: '/fitur/komunikasi-whatsapp',
+    color: '#4F46E5',
     description:
       'Kelola template pesan dan aktivitas WhatsApp Blast melalui modul yang tersedia.',
   },

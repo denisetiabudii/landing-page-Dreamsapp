@@ -4,19 +4,28 @@ import PageShell from '../layout/PageShell'
 import Container from '../common/Container'
 import SectionHeading from '../common/SectionHeading'
 import CTA from '../sections/CTA'
+import { features } from '../../data/features'
 import { featurePages } from '../../data/featurePages'
 
 function FeatureDetailPage({ slug }) {
   const page = featurePages[slug]
   if (!page) return null
 
+  const href = `/fitur/${slug}`
+  const current = features.find((feature) => feature.href === href)
+  const others = features.filter((feature) => feature.href !== href)
+
   return (
     <PageShell
-      path={`/fitur/${slug}`}
+      path={href}
       title={page.heading}
       lead={page.lead}
+      accent={current?.color}
     >
-      <section className="feature-detail">
+      <section
+        className="feature-detail"
+        style={{ '--card-color': current?.color ?? '#087bee' }}
+      >
         <style>{`
           .feature-detail {
             padding: var(--section-spacing) 0 calc(var(--section-spacing) * 0.6);
@@ -29,62 +38,132 @@ function FeatureDetailPage({ slug }) {
             margin-bottom: 56px;
           }
 
+          /* Warna kartu sama dengan kartu bertumpuk di halaman Fitur */
           .feature-detail__point {
-            padding: 24px;
-            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+            padding: 28px;
             border-radius: var(--radius-lg);
-            background: var(--color-white);
-            box-shadow: var(--shadow-sm);
+            color: #ffffff;
+            background: linear-gradient(
+              135deg,
+              color-mix(in srgb, var(--card-color) 85%, #102d50),
+              var(--card-color) 55%,
+              color-mix(in srgb, var(--card-color) 75%, #000000)
+            );
+            box-shadow: 0 18px 40px -22px var(--card-color);
+          }
+
+          .feature-detail__point::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+          }
+
+          .feature-detail__point h2,
+          .feature-detail__point p {
+            position: relative;
+            z-index: 1;
           }
 
           .feature-detail__point h2 {
-            margin-bottom: 8px;
-            color: var(--color-heading);
+            margin-bottom: 10px;
+            color: #ffffff;
             font-size: var(--text-xl);
+            letter-spacing: -0.02em;
           }
 
           .feature-detail__point p {
-            color: var(--color-text);
-            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.75;
           }
 
+          /* Panel berwarna agar gambar tampilan aplikasi lebih menonjol */
           .feature-detail__images {
             display: grid;
-            gap: 24px;
+            gap: 28px;
+            padding: 40px;
+            border-radius: 28px;
+            background: linear-gradient(
+              145deg,
+              color-mix(in srgb, var(--card-color) 30%, #ffffff),
+              color-mix(in srgb, var(--card-color) 12%, #ffffff)
+            );
+            border: 1px solid color-mix(in srgb, var(--card-color) 25%, #ffffff);
           }
 
           .feature-detail__images img {
             display: block;
             width: 100%;
             height: auto;
-            border: 1px solid var(--color-border);
+            border: 1px solid color-mix(in srgb, var(--card-color) 20%, #ffffff);
             border-radius: var(--radius-lg);
             background: var(--color-white);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 28px 56px -28px var(--card-color);
+          }
+
+          .feature-detail__spacer {
+            height: 56px;
+          }
+
+          @media (max-width: 640px) {
+            .feature-detail__images {
+              padding: 16px;
+              border-radius: 20px;
+              gap: 16px;
+            }
           }
 
           .feature-detail__related {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
           }
 
+          /* Tiap tautan memakai warna fiturnya (sama dengan kartu bertumpuk) */
           .feature-detail__related a {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 10px 18px;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-            color: var(--color-navy);
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius-md, 14px);
+            color: #ffffff;
             font-weight: 600;
+            background: linear-gradient(
+              135deg,
+              color-mix(in srgb, var(--card-color) 85%, #102d50),
+              var(--card-color) 55%,
+              color-mix(in srgb, var(--card-color) 75%, #000000)
+            );
             transition: var(--transition);
           }
 
+          /* "Semua fitur" bukan fitur tertentu: warna footer */
+          .feature-detail__related a.feature-detail__all {
+            background: linear-gradient(
+              120deg,
+              #091d35 0%,
+              #10385e 55%,
+              #07549c 100%
+            );
+          }
+
           .feature-detail__related a:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px -18px var(--card-color, #07549c);
+          }
+
+          .feature-detail__related svg {
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.85);
           }
         `}</style>
 
@@ -109,18 +188,22 @@ function FeatureDetailPage({ slug }) {
             ))}
           </div>
 
-          <div style={{ height: 56 }} />
+          <div className="feature-detail__spacer" />
 
           <SectionHeading title="Fitur Terkait" align="left" />
 
           <nav className="feature-detail__related" aria-label="Fitur terkait">
-            <a href="/fitur">
-              Semua fitur <ArrowUpRight size={16} aria-hidden="true" />
+            <a href="/fitur" className="feature-detail__all">
+              Semua fitur <ArrowUpRight size={18} aria-hidden="true" />
             </a>
-            {page.related.map((relatedSlug) => (
-              <a key={relatedSlug} href={`/fitur/${relatedSlug}`}>
-                {featurePages[relatedSlug].title}
-                <ArrowUpRight size={16} aria-hidden="true" />
+            {others.map((feature) => (
+              <a
+                key={feature.href}
+                href={feature.href}
+                style={{ '--card-color': feature.color }}
+              >
+                {feature.title}
+                <ArrowUpRight size={18} aria-hidden="true" />
               </a>
             ))}
           </nav>

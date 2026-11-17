@@ -74,6 +74,36 @@ export const routes = [
       'Catat penyaluran bantuan secara rapi, satu sistem dengan data donasi. Lihat fitur distribusi bantuan DREAMS.',
   },
   {
+    path: '/fitur/pengelolaan-transaksi',
+    page: 'FeatureDetailPage',
+    props: { slug: 'pengelolaan-transaksi' },
+    title: 'Software Pengelolaan Transaksi Donasi | DREAMS',
+    description:
+      'Catat dan pantau transaksi donasi berdasarkan program dan metode pembayaran. Bukti donasi PDF dibuat otomatis. Ajukan demo DREAMS.',
+    ogDescription:
+      'Catat transaksi donasi per program dan metode pembayaran, lengkap dengan bukti donasi PDF otomatis. Lihat fitur transaksi DREAMS.',
+  },
+  {
+    path: '/fitur/manajemen-prospek',
+    page: 'FeatureDetailPage',
+    props: { slug: 'manajemen-prospek' },
+    title: 'Manajemen Prospek Donatur untuk Fundraising | DREAMS',
+    description:
+      'Kelola calon donatur, aktivitas tindak lanjut, dan respons prospek dalam satu sistem. Ajukan demo DREAMS.',
+    ogDescription:
+      'Pantau calon donatur dan tindak lanjutnya dalam satu sistem. Lihat fitur manajemen prospek DREAMS.',
+  },
+  {
+    path: '/fitur/komunikasi-whatsapp',
+    page: 'FeatureDetailPage',
+    props: { slug: 'komunikasi-whatsapp' },
+    title: 'Komunikasi WhatsApp untuk Donatur | DREAMS',
+    description:
+      'Kelola template pesan dan aktivitas WhatsApp Blast melalui modul DREAMS. Ajukan demo DREAMS.',
+    ogDescription:
+      'Kelola template pesan dan WhatsApp Blast untuk donatur lewat modul DREAMS.',
+  },
+  {
     path: '/demo',
     page: 'DemoPage',
     title: 'Ajukan Demo Gratis DREAMS – Aplikasi Pengelolaan Donasi',

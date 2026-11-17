@@ -171,15 +171,6 @@ const Features = () => {
   // CARD COLORS
   // =========================================
 
-  const cardColors = [
-    '#2563EB',
-    '#06B6D4',
-    '#8B5CF6',
-    '#0D9488',
-    '#F97316',
-    '#4F46E5',
-  ]
-
   // =========================================
   // RENDER
   // =========================================
@@ -217,7 +208,7 @@ const Features = () => {
           position: relative;
           overflow: clip;
 
-          padding: 320px 0 120px;
+          padding: 72px 0 120px;
 
           background: var(--color-surface);
         }
@@ -242,7 +233,7 @@ const Features = () => {
         ===================================== */
 
         .features .section-heading {
-          margin-top: 100px;
+          margin-top: 0;
         }
 
         /* =====================================
@@ -258,7 +249,7 @@ const Features = () => {
           display: flex;
           flex-direction: column;
 
-          margin: 100px auto 0;
+          margin: 64px auto 0;
 
           gap: var(--stack-gap);
         }
@@ -875,7 +866,7 @@ const Features = () => {
             --card-max: 520px;
             --card-min: 380px;
 
-            padding: 260px 0 140px;
+            padding: 64px 0 140px;
           }
 
           .feature-card__content {
@@ -917,7 +908,7 @@ const Features = () => {
             --card-max: 560px;
             --card-min: 440px;
 
-            padding: 260px 0 140px;
+            padding: 64px 0 140px;
           }
 
           .features__stack {
@@ -988,7 +979,7 @@ const Features = () => {
             --card-max: 520px;
             --card-min: 420px;
 
-            padding: 220px 0 110px;
+            padding: 56px 0 110px;
           }
 
           .features__stack {
@@ -1103,7 +1094,7 @@ const Features = () => {
             --card-max: 480px;
             --card-min: 400px;
 
-            padding: 180px 0 70px;
+            padding: 48px 0 70px;
           }
 
           .features__stack {
@@ -1201,7 +1192,7 @@ const Features = () => {
             {features.map((feature, index) => {
               const Icon = feature.icon
 
-              const cardColor = cardColors[index % cardColors.length]
+              const cardColor = feature.color
 
               const illustration =
                 illustrationList[index % illustrationList.length]

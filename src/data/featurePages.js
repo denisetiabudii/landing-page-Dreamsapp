@@ -6,8 +6,12 @@
 // =========================================
 
 import {
+  buktiDonasi,
+  donationProgramAnalytics,
   donorProfileDetail,
   featureDistribusi,
+  featureKomunikasi,
+  featureProspek,
   rfmHeatmapMatrix,
   rfmHealthComparison,
   rfmSegmentComparison,
@@ -38,7 +42,6 @@ export const featurePages = {
         alt: 'Tampilan detail profil donatur di DREAMS',
       },
     ],
-    related: ['analitik-rfm', 'distribusi-bantuan'],
   },
 
   'analitik-rfm': {
@@ -74,7 +77,6 @@ export const featurePages = {
       },
       { src: rfmHeatmapMatrix, alt: 'Matriks heatmap RFM donatur di DREAMS' },
     ],
-    related: ['manajemen-donatur', 'distribusi-bantuan'],
   },
 
   'distribusi-bantuan': {
@@ -97,6 +99,63 @@ export const featurePages = {
         alt: 'Ilustrasi pengelolaan distribusi bantuan di DREAMS',
       },
     ],
-    related: ['manajemen-donatur', 'analitik-rfm'],
+  },
+
+  'pengelolaan-transaksi': {
+    title: 'Pengelolaan Transaksi',
+    heading: 'Pengelolaan Transaksi Donasi untuk Lembaga Sosial',
+    lead: 'Catat dan pantau transaksi donasi berdasarkan program dan metode pembayaran.',
+    points: [
+      {
+        title: 'Pencatatan transaksi donasi',
+        text: 'Kelola informasi transaksi donasi untuk membantu pencatatan dan pemantauan aktivitas donasi.',
+      },
+      {
+        title: 'Berdasarkan program dan metode pembayaran',
+        text: 'Pantau transaksi sesuai program donasi dan metode pembayaran yang digunakan.',
+      },
+      {
+        title: 'Bukti donasi digital',
+        text: 'Buat bukti donasi dengan desain yang dapat disesuaikan dan dihasilkan secara otomatis dalam format PDF sebagai dokumentasi donasi bagi donatur.',
+      },
+    ],
+    images: [
+      { src: buktiDonasi, alt: 'Tampilan bukti donasi digital DREAMS dalam format PDF' },
+      { src: donationProgramAnalytics, alt: 'Analitik kinerja program donasi di DREAMS' },
+    ],
+  },
+
+  'manajemen-prospek': {
+    title: 'Manajemen Prospek',
+    heading: 'Manajemen Prospek dan Calon Donatur',
+    lead: 'Kelola calon donatur, aktivitas tindak lanjut, serta respons prospek.',
+    points: [
+      {
+        title: 'Data calon donatur',
+        text: 'Simpan dan kelola data prospek serta calon donatur dalam satu sistem.',
+      },
+      {
+        title: 'Tindak lanjut dan respons',
+        text: 'Catat aktivitas tindak lanjut dan respons prospek agar tim dapat memantau perkembangannya.',
+      },
+    ],
+    images: [{ src: featureProspek, alt: 'Ilustrasi manajemen prospek donatur di DREAMS' }],
+  },
+
+  'komunikasi-whatsapp': {
+    title: 'Komunikasi WhatsApp',
+    heading: 'Komunikasi WhatsApp untuk Donatur',
+    lead: 'Kelola template pesan dan aktivitas WhatsApp Blast melalui modul yang tersedia.',
+    points: [
+      {
+        title: 'Template pesan',
+        text: 'Kelola template pesan WhatsApp agar komunikasi lembaga lebih konsisten.',
+      },
+      {
+        title: 'WhatsApp Blast',
+        text: 'Kelola aktivitas WhatsApp Blast melalui modul yang tersedia di DREAMS.',
+      },
+    ],
+    images: [{ src: featureKomunikasi, alt: 'Ilustrasi modul komunikasi WhatsApp di DREAMS' }],
   },
 }
