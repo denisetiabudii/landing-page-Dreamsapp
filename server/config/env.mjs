@@ -1,4 +1,5 @@
-﻿import dotenv from 'dotenv'
+﻿
+import dotenv from 'dotenv'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -12,6 +13,8 @@ const rootEnvPath = resolve(
 )
 
 dotenv.config({ path: rootEnvPath })
+
+const isVercel = process.env.VERCEL === '1'
 
 // =========================================
 // ENVIRONMENT HELPERS
@@ -45,6 +48,17 @@ function integerSetting(name, minimum = 1, maximum = Infinity) {
   return value
 }
 
+function platformIntegerSetting(name, fallback, minimum = 1) {
+  const rawValue = process.env[name]
+
+  if (rawValue === undefined || rawValue.trim() === '') {
+    if (isVercel) return fallback
+    return integerSetting(name, minimum)
+  }
+
+  return integerSetting(name, minimum)
+}
+
 // =========================================
 // NODE ENVIRONMENT
 // =========================================
@@ -60,13 +74,10 @@ if (!['development', 'test', 'production'].includes(nodeEnv)) {
 // =========================================
 
 const spreadsheetId = requiredSetting('GOOGLE_SHEETS_SPREADSHEET_ID')
-
 const sheetName = requiredSetting('GOOGLE_SHEETS_SHEET_NAME')
 
 const keyFile = process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE?.trim()
-
 const serviceAccountEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim()
-
 const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n').trim()
 
 if (!keyFile && (!serviceAccountEmail || !privateKey)) {
@@ -95,13 +106,38 @@ if (whatsappNumber !== undefined && !/^[1-9]\d{7,14}$/.test(whatsappNumber)) {
 // CORS CONFIGURATION
 // =========================================
 
-if (process.env.CORS_ORIGINS === undefined) {
+function getVercelOrigin() {
+  const hostname = process.env.VERCEL_URL?.trim()
+
+  if (!hostname) return undefined
+
+  const normalizedHostname = hostname
+    .replace(/^https?:\/\//i, '')
+    .replace(/\/+$/, '')
+
+  if (/[/?#]/.test(normalizedHostname)) {
+    throw new Error('VERCEL_URL must contain a hostname only')
+  }
+
+  return `https://${normalizedHostname}`
+}
+
+const vercelOrigin = getVercelOrigin()
+const rawCorsOrigins = process.env.CORS_ORIGINS
+
+if (rawCorsOrigins === undefined && !vercelOrigin) {
   throw new Error('CORS_ORIGINS must be set')
 }
 
-const corsOrigins = process.env.CORS_ORIGINS.split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean)
+const corsOrigins = [
+  ...(rawCorsOrigins ?? '')
+    .split(',')
+    .map((origin) => origin.trim().replace(/\/+$/, ''))
+    .filter(Boolean),
+  ...(vercelOrigin ? [vercelOrigin] : []),
+]
+
+const uniqueCorsOrigins = [...new Set(corsOrigins)]
 
 // =========================================
 // PRODUCTION VALIDATION
@@ -119,14 +155,14 @@ export function assertProductionSettings({
   }
 
   if (corsOrigins.length === 0) {
-    throw new Error('CORS_ORIGINS must be set when NODE_ENV=production')
+    throw new Error('CORS_ORIGINS or VERCEL_URL must be set when NODE_ENV=production')
   }
 }
 
 assertProductionSettings({
   nodeEnv,
   whatsappNumber,
-  corsOrigins,
+  corsOrigins: uniqueCorsOrigins,
 })
 
 // =========================================
@@ -136,7 +172,7 @@ assertProductionSettings({
 export const config = Object.freeze({
   nodeEnv,
 
-  port: integerSetting('PORT', 1, 65535),
+  port: platformIntegerSetting('PORT', 3000, 1),
 
   googleSheets: {
     spreadsheetId,
@@ -152,13 +188,13 @@ export const config = Object.freeze({
         : undefined,
   },
 
-  trustProxy: integerSetting('TRUST_PROXY', 0),
+  trustProxy: platformIntegerSetting('TRUST_PROXY', 1, 0),
 
   whatsapp: {
     number: whatsappNumber,
   },
 
-  corsOrigins,
+  corsOrigins: uniqueCorsOrigins,
 
   rateLimit: {
     windowMs: integerSetting('RATE_LIMIT_WINDOW_MS'),

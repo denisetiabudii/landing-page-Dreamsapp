@@ -10,7 +10,8 @@
     "dev": "vite",
     "dev:server": "nodemon server/server.mjs",
     "start": "node server/server.mjs",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build:client": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "node --test"

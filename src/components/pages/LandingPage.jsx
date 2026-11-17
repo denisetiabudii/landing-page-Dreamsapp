@@ -17,6 +17,8 @@ import WhyDreams from '../sections/WhyDreams'
 import Features from '../sections/Features'
 import ProductShowcase from '../sections/ProductShowcase'
 import HowItWorks from '../sections/HowItWorks'
+import Testimonials from '../sections/Testimonials'
+import Partners from '../sections/Partners'
 import CTA from '../sections/CTA'
 
 // =========================================
@@ -68,6 +70,8 @@ function LandingPage() {
         <Features />
         <ProductShowcase />
         <HowItWorks />
+        <Testimonials />
+        <Partners />
         <CTA />
       </main>
 

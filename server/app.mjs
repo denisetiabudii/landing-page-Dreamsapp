@@ -9,6 +9,7 @@ import { createDemoRequestRoutes } from './routes/demoRequestRoutes.mjs'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.mjs'
 import { AppError } from './utils/errors.mjs'
 import { createWhatsappRoutes } from './routes/whatsappRoutes.mjs'
+import { routes as pageRoutes } from '../src/routes.js'
 
 // =========================================
 // APP
@@ -60,7 +61,7 @@ export function createApp(
   // HEALTH CHECK
   // =========================================
 
-  app.get('/health', (request, response) => {
+  app.get(['/health', '/api/health'], (request, response) => {
     response.json({
       success: true,
       data: {
@@ -81,12 +82,27 @@ export function createApp(
   // =========================================
 
   if (frontendDist) {
-    app.use(express.static(frontendDist, { index: false }))
+    // redirect: false → "/fitur" tidak dialihkan ke "/fitur/" (folder prerender).
+    app.use(express.static(frontendDist, { index: false, redirect: false }))
+
+    // Halaman hasil prerender: "/" → index.html, "/fitur" → fitur/index.html, dst.
+    // Path lain tetap diberi shell SPA, tetapi dengan status 404 (bukan 200)
+    // agar mesin pencari tidak mengindeks URL sembarang.
+    const knownPages = new Set(pageRoutes.map((route) => route.path))
 
     app.get(
       /^(?!\/api(?:\/|$)|\/health(?:\/|$)).*/,
       (request, response, next) => {
-        response.sendFile(path.resolve(frontendDist, 'index.html'), (error) => {
+        const pathname = request.path.replace(/\/+$/, '') || '/'
+        const known = knownPages.has(pathname)
+        const file = known
+          ? pathname === '/'
+            ? 'index.html'
+            : path.join(pathname.slice(1), 'index.html')
+          : 'index.html'
+
+        response.status(known ? 200 : 404)
+        response.sendFile(path.resolve(frontendDist, file), (error) => {
           if (error) next(error)
         })
       },

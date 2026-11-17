@@ -29,11 +29,7 @@ function DemoNavbar() {
   }
 
   const getSectionHref = (item) => {
-    if (item.label === 'Kontak') {
-      return '#kontak'
-    }
-
-    return `/${item.href}`
+    return item.href
   }
 
   useEffect(() => {
@@ -714,11 +710,7 @@ function DemoNavbar() {
           <div className="demo-navbar__inner">
             {/* BRAND */}
 
-            <a
-              href="/#beranda"
-              className="demo-navbar__brand"
-              aria-label="DREAMS Home"
-            >
+            <a href="/" className="demo-navbar__brand" aria-label="DREAMS Home">
               <img
                 src={dreamsLight}
                 alt="DREAMS"

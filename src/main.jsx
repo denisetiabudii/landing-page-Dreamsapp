@@ -1,10 +1,24 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import { loadPage } from './pageLoaders'
+import { findRoute } from './routes'
 
-createRoot(document.getElementById('root')).render(
+// Halaman dimuat sebelum render agar hasilnya sama dengan HTML hasil prerender.
+const route = findRoute(window.location.pathname)
+const Page = await loadPage(route.page)
+
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <Page {...route.props} />
+  </StrictMode>
 )
+
+const rootElement = document.getElementById('root')
+
+// Ada isi = hasil prerender → hydrate. Kosong (mis. dev server) → render biasa.
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, app)
+} else {
+  createRoot(rootElement).render(app)
+}

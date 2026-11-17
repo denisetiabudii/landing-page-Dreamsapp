@@ -769,7 +769,7 @@ function Navbar() {
             {/* BRAND */}
 
             <a
-              href="#beranda"
+              href="/"
               className="navbar__brand"
               aria-label="DREAMS Home"
               onClick={closeMenu}

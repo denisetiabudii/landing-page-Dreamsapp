@@ -49,12 +49,24 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "DREAMS",
-        "description": "Sistem pengelolaan donasi dan operasional lembaga sosial.",
-        "sameAs": [
-          "https://www.instagram.com/dreamsapp.id/",
-          "https://web.facebook.com/61596033659958/"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "DREAMS",
+            "description": "Sistem pengelolaan donasi dan operasional lembaga sosial.",
+            "sameAs": [
+              "https://www.instagram.com/dreamsapp.id/",
+              "https://web.facebook.com/61596033659958/"
+            ]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "DREAMS",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "inLanguage": "id",
+            "description": "Sistem pengelolaan donasi untuk lembaga sosial: donatur, transaksi, prospek, analitik RFM, dan distribusi bantuan."
+          }
         ]
       }
     </script>

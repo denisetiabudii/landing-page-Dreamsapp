@@ -84,7 +84,7 @@ function Footer() {
           <div className="footer__main">
             {/* Brand */}
             <div className="footer__brand">
-              <a href="#beranda" className="footer__logo-link">
+              <a href="/" className="footer__logo-link">
                 <img src={dreamsDark} alt="DREAMS" className="footer__logo" />
               </a>
 

@@ -2,6 +2,8 @@
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 
+import { routes } from './src/routes.js'
+
 const GTM_RE = /^GTM-[A-Z0-9]+$/
 const GA_RE = /^G-[A-Z0-9]+$/
 const CLARITY_RE = /^[a-z0-9]+$/i
@@ -21,6 +23,7 @@ function dreamsHtml(env) {
   const siteUrl = String(env.VITE_SITE_URL ?? '')
     .trim()
     .replace(/\/+$/, '')
+  const noindex = String(env.VITE_NOINDEX ?? '').toLowerCase() === 'true'
   const gtm = cleanId(env.VITE_GTM_ID, GTM_RE, 'VITE_GTM_ID')
   const ga = gtm ? '' : cleanId(env.VITE_GA_ID, GA_RE, 'VITE_GA_ID')
   const clarity = cleanId(env.VITE_CLARITY_ID, CLARITY_RE, 'VITE_CLARITY_ID')
@@ -39,6 +42,11 @@ function dreamsHtml(env) {
             .filter((line) => !line.includes('__SITE_URL__'))
             .join('\n')
         }
+        out = out.replace(
+          /(<meta\s+name="robots"\s+content=")[^"]*(")/,
+          (_, before, after) =>
+            `${before}${noindex ? 'noindex, nofollow' : 'index, follow'}${after}`,
+        )
 
         const tags = []
 
@@ -92,8 +100,8 @@ function dreamsHtml(env) {
       })
 
       if (siteUrl) {
-        const urls = ['/', '/demo']
-          .map((p) => `  <url><loc>${siteUrl}${p}</loc></url>`)
+        const urls = routes
+          .map((r) => `  <url><loc>${siteUrl}${r.path}</loc></url>`)
           .join('\n')
         this.emitFile({
           type: 'asset',
