@@ -1,16 +1,9 @@
 import { useRef, useState, useEffect } from 'react'
-import {
-  ArrowUpRight,
-  Users,
-  ReceiptText,
-  UserSearch,
-  ChartNoAxesCombined,
-  HandHeart,
-  MessageCircle,
-} from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 
 import Container from '../../components/common/Container'
 import SectionHeading from '../../components/common/SectionHeading'
+import { features } from '../../data/features'
 
 import {
   featureDonatur,
@@ -20,49 +13,6 @@ import {
   featureDistribusi,
   featureKomunikasi,
 } from '../../assets/assets'
-
-// =========================================
-// DATA FITUR DREAMS
-// =========================================
-
-const features = [
-  {
-    icon: Users,
-    title: 'Manajemen Donatur',
-    description:
-      'Kelola informasi donatur dan pantau aktivitas donasi dalam satu sistem.',
-  },
-  {
-    icon: ReceiptText,
-    title: 'Pengelolaan Transaksi',
-    description:
-      'Catat dan pantau transaksi donasi berdasarkan program dan metode pembayaran.',
-  },
-  {
-    icon: UserSearch,
-    title: 'Manajemen Prospek',
-    description:
-      'Kelola calon donatur, aktivitas tindak lanjut, serta respons prospek.',
-  },
-  {
-    icon: ChartNoAxesCombined,
-    title: 'Analitik RFM',
-    description:
-      'Kenali karakteristik donatur berdasarkan recency, frequency, dan monetary.',
-  },
-  {
-    icon: HandHeart,
-    title: 'Pengelolaan Distribusi',
-    description:
-      'Kelola data penyaluran bantuan sebagai bagian dari aktivitas lembaga.',
-  },
-  {
-    icon: MessageCircle,
-    title: 'Komunikasi WhatsApp',
-    description:
-      'Kelola template pesan dan aktivitas WhatsApp Blast melalui modul yang tersedia.',
-  },
-]
 
 // =========================================
 // DATA ILUSTRASI FITUR DREAMS
@@ -703,6 +653,30 @@ const Features = () => {
           line-height: 1.75;
         }
 
+        .feature-card__more {
+          color: #ffffff;
+          font-size: 0.95rem;
+          font-weight: 600;
+          text-decoration: underline;
+          text-underline-offset: 4px;
+          text-decoration-thickness: 1px;
+          opacity: 0.92;
+          transition: opacity 0.2s ease;
+        }
+
+        .feature-card__more:hover {
+          opacity: 1;
+        }
+
+        .feature-card__more-hidden {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip-path: inset(50%);
+          white-space: nowrap;
+        }
+
         /* =====================================
            CARD ACTION ARROW
         ===================================== */
@@ -1285,6 +1259,16 @@ const Features = () => {
                         <h3>{feature.title}</h3>
 
                         <p>{feature.description}</p>
+
+                        {feature.href && (
+                          <a href={feature.href} className="feature-card__more">
+                            Selengkapnya
+                            <span className="feature-card__more-hidden">
+                              {' '}
+                              tentang {feature.title}
+                            </span>
+                          </a>
+                        )}
 
                         <div className="feature-card__arrow">
                           <ArrowUpRight size={22} />

@@ -30,9 +30,10 @@ function escapeHtml(value) {
 }
 
 // Ganti metadata per halaman berdasarkan template index.html.
-function applyMeta(html, { path, title, description }) {
+function applyMeta(html, { path, title, description, ogDescription }) {
   const t = escapeHtml(title)
   const d = escapeHtml(description)
+  const og = escapeHtml(ogDescription ?? description)
   const url = escapeHtml(`${siteUrl}${path === '/' ? '/' : path}`)
 
   let out = html
@@ -47,7 +48,7 @@ function applyMeta(html, { path, title, description }) {
     )
     .replace(
       /(<meta\s+property="og:description"\s+content=")[^"]*(")/,
-      (_, before, after) => `${before}${d}${after}`,
+      (_, before, after) => `${before}${og}${after}`,
     )
     .replace(
       /(<meta\s+name="twitter:title"\s+content=")[^"]*(")/,
@@ -55,8 +56,16 @@ function applyMeta(html, { path, title, description }) {
     )
     .replace(
       /(<meta\s+name="twitter:description"\s+content=")[^"]*(")/,
-      (_, before, after) => `${before}${d}${after}`,
+      (_, before, after) => `${before}${og}${after}`,
     )
+
+  // Data terstruktur beranda hanya dipakai di "/".
+  if (path !== '/') {
+    out = out.replace(
+      /<script[^>]*id="jsonld-home"[^>]*>[\s\S]*?<\/script>/,
+      '',
+    )
+  }
 
   if (siteUrl) {
     out = out

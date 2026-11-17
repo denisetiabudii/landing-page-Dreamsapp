@@ -18,6 +18,55 @@ function cleanId(value, pattern, name) {
   return v
 }
 
+// Data terstruktur beranda (Organization + WebSite + SoftwareApplication).
+// Halaman lain tidak memakainya; prerender membuangnya dari halaman selain "/".
+function buildJsonLd(siteUrl) {
+  const withSite = (path) => (siteUrl ? `${siteUrl}${path}` : undefined)
+
+  const graph = [
+    {
+      '@type': 'Organization',
+      '@id': withSite('/#org'),
+      name: 'DREAMS',
+      url: withSite('/'),
+      logo: withSite('/logo.png'),
+      description: 'Sistem pengelolaan donasi dan operasional lembaga sosial.',
+      sameAs: [
+        'https://www.instagram.com/dreamsapp.id/',
+        'https://web.facebook.com/61596033659958/',
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        availableLanguage: ['id'],
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': withSite('/#website'),
+      url: withSite('/'),
+      name: 'DREAMS',
+      inLanguage: 'id',
+      publisher: siteUrl ? { '@id': `${siteUrl}/#org` } : undefined,
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'DREAMS',
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      url: withSite('/'),
+      inLanguage: 'id',
+      description:
+        'Sistem pengelolaan donasi untuk lembaga sosial: donatur, transaksi, prospek, analitik RFM, dan distribusi bantuan.',
+      publisher: siteUrl ? { '@id': `${siteUrl}/#org` } : undefined,
+    },
+  ]
+
+  // undefined otomatis hilang saat JSON.stringify; "<" di-escape agar aman di dalam <script>.
+  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })
+    .replaceAll('<', '\\u003c')
+}
+
 // Menyuntik analytics (hanya jika ID terisi) dan mengisi alamat situs di meta SEO.
 function dreamsHtml(env) {
   const siteUrl = String(env.VITE_SITE_URL ?? '')
@@ -87,11 +136,18 @@ function dreamsHtml(env) {
           })
         }
 
+        tags.push({
+          tag: 'script',
+          injectTo: 'head',
+          attrs: { type: 'application/ld+json', id: 'jsonld-home' },
+          children: buildJsonLd(siteUrl),
+        })
+
         return { html: out, tags }
       },
     },
     generateBundle() {
-      const robots = ['User-agent: *', 'Allow: /']
+      const robots = ['User-agent: *', 'Allow: /', 'Disallow: /api/']
       if (siteUrl) robots.push(`Sitemap: ${siteUrl}/sitemap.xml`)
       this.emitFile({
         type: 'asset',

@@ -414,8 +414,50 @@ function WhyDreams() {
         .why-dreams {
           position: relative;
           overflow: hidden;
-          padding: 100px 0 200px;
-          background: var(--color-surface);
+          padding: 100px 0 280px;
+          background:
+            radial-gradient(
+              ellipse 620px 400px at 12% 34%,
+              rgba(8, 123, 238, 0.38),
+              transparent 70%
+            ),
+            radial-gradient(
+              ellipse 580px 380px at 88% 46%,
+              rgba(79, 195, 224, 0.26),
+              transparent 70%
+            ),
+            radial-gradient(
+              ellipse 500px 340px at 50% 84%,
+              rgba(121, 82, 216, 0.26),
+              transparent 70%
+            ),
+            linear-gradient(180deg, #0b2748 0%, #0d3560 55%, #0a2c52 100%);
+        }
+
+        /* Pudar ke putih di bagian bawah, menuju section Produk */
+        .why-dreams::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 1;
+          height: 170px;
+          background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0),
+            #ffffff
+          );
+          pointer-events: none;
+        }
+
+        /* Teks judul section di atas latar gelap */
+        .why-dreams .section-heading__title {
+          color: #ffffff;
+        }
+
+        .why-dreams .section-heading__description {
+          color: rgba(255, 255, 255, 0.78);
         }
 
         .why-dreams__content {
@@ -454,37 +496,14 @@ function WhyDreams() {
 
           background: radial-gradient(
             ellipse at center,
-            rgba(8, 123, 238, 0.12) 0%,
-            rgba(8, 123, 238, 0.05) 45%,
+            rgba(79, 195, 224, 0.4) 0%,
+            rgba(8, 123, 238, 0.18) 45%,
             transparent 75%
           );
 
           filter: blur(24px);
           transform: translateX(-50%);
           z-index: 0;
-          pointer-events: none;
-        }
-
-        .why-dreams__mascot-wrapper::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -1px;
-          width: 100%;
-          height: 130px;
-
-          background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            color-mix(
-              in srgb,
-              var(--color-surface) 45%,
-              transparent
-            ) 40%,
-            var(--color-surface) 100%
-          );
-
-          z-index: 2;
           pointer-events: none;
         }
 
@@ -501,6 +520,18 @@ function WhyDreams() {
           height: auto;
           object-fit: contain;
           aspect-ratio: 1181 / 1331;
+          -webkit-mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 62%,
+            transparent 100%
+          );
+          mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 62%,
+            transparent 100%
+          );
         }
 
         /* EYE TRACKING */
@@ -892,7 +923,7 @@ function WhyDreams() {
         .why-dreams__decoration--two {
           top: 230px;
           right: 25%;
-          color: #176b45;
+          color: #5fd3a0;
         }
 
         /* INTERACTION HINT - FLOATING */
@@ -1226,10 +1257,6 @@ function WhyDreams() {
             width: clamp(340px, 28vw, 420px);
           }
 
-          .why-dreams__mascot-wrapper::after {
-            height: 150px;
-          }
-
           .why-dreams__avatar-group--top {
             top: -15px;
             gap: clamp(110px, 8vw, 145px);
@@ -1280,7 +1307,7 @@ function WhyDreams() {
         /* TABLET */
         @media (max-width: 768px) {
           .why-dreams {
-            padding: 80px 0 180px;
+            padding: 80px 0 260px;
           }
 
           .why-dreams__visual {
@@ -1294,10 +1321,6 @@ function WhyDreams() {
 
           .why-dreams__mascot-wrapper::before {
             height: 120px;
-          }
-
-          .why-dreams__mascot-wrapper::after {
-            height: 110px;
           }
 
           .why-dreams__avatar {
@@ -1368,7 +1391,7 @@ function WhyDreams() {
         /* MOBILE */
         @media (max-width: 480px) {
           .why-dreams {
-            padding: 65px 0 160px;
+            padding: 65px 0 240px;
           }
 
           .why-dreams__visual {
@@ -1383,10 +1406,6 @@ function WhyDreams() {
           .why-dreams__mascot-wrapper::before {
             height: 100px;
             filter: blur(18px);
-          }
-
-          .why-dreams__mascot-wrapper::after {
-            height: 90px;
           }
 
           .why-dreams__avatar-group--top {
@@ -1430,7 +1449,7 @@ function WhyDreams() {
             width: max-content;
             max-width: 78px;
 
-            color: var(--avatar-color);
+            color: color-mix(in srgb, var(--avatar-color) 45%, white);
 
             font-size: 8px;
             font-weight: 700;

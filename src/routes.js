@@ -10,6 +10,9 @@
 // Daftar ini dipakai oleh: browser (hydrate), prerender saat build,
 // sitemap.xml, dan server Express. File ini harus tetap berisi data murni
 // (tanpa import komponen) karena juga dibaca oleh Node.
+//
+// Field: path, page, props (opsional), title, description,
+// ogDescription (teks untuk Facebook/WhatsApp/LinkedIn; opsional).
 // =========================================
 
 export const routes = [
@@ -19,6 +22,8 @@ export const routes = [
     title: 'DREAMS – Sistem Pengelolaan Donasi untuk Lembaga Sosial',
     description:
       'Kelola donatur, transaksi, prospek, analitik RFM, dan distribusi dalam satu sistem. Ajukan demo DREAMS untuk lembaga Anda.',
+    ogDescription:
+      'Rapikan data donatur, transaksi, dan penyaluran bantuan lembaga Anda dalam satu sistem. Jadwalkan demo DREAMS sekarang.',
   },
   {
     path: '/tentang',
@@ -26,6 +31,8 @@ export const routes = [
     title: 'Tentang DREAMS – Sistem Donasi untuk Lembaga Sosial',
     description:
       'Kenali DREAMS, sistem pengelolaan donasi dan operasional lembaga sosial: donatur, transaksi, prospek, analitik, hingga penyaluran bantuan.',
+    ogDescription:
+      'Kenali DREAMS: sistem yang membantu lembaga sosial mengelola donatur, transaksi, prospek, hingga penyaluran bantuan secara lebih terstruktur.',
   },
   {
     path: '/fitur',
@@ -33,6 +40,8 @@ export const routes = [
     title: 'Fitur DREAMS – Manajemen Donatur, Transaksi, RFM',
     description:
       'Lihat fitur DREAMS: manajemen donatur, transaksi, prospek, analitik RFM, distribusi bantuan, dan komunikasi WhatsApp dalam satu sistem.',
+    ogDescription:
+      'Dari data donatur sampai analitik RFM dan distribusi bantuan, lihat semua fitur DREAMS untuk lembaga sosial.',
   },
   {
     path: '/fitur/manajemen-donatur',
@@ -41,6 +50,8 @@ export const routes = [
     title: 'Software Manajemen Donatur untuk Yayasan | DREAMS',
     description:
       'Kelola data donatur dan pantau aktivitas donasi dalam satu sistem. Lihat fitur manajemen donatur DREAMS dan ajukan demo.',
+    ogDescription:
+      'Semua data donatur dan riwayat donasinya di satu tempat. Lihat cara DREAMS membantu lembaga mengelola donatur.',
   },
   {
     path: '/fitur/analitik-rfm',
@@ -49,6 +60,8 @@ export const routes = [
     title: 'Analitik RFM Donatur – Segmentasi Otomatis | DREAMS',
     description:
       'Kenali karakteristik donatur berdasarkan recency, frequency, dan monetary dengan analitik RFM DREAMS. Ajukan demo.',
+    ogDescription:
+      'Kenali donatur lewat recency, frequency, dan monetary agar pendekatan ke donatur lebih tepat. Lihat analitik RFM DREAMS.',
   },
   {
     path: '/fitur/distribusi-bantuan',
@@ -57,6 +70,8 @@ export const routes = [
     title: 'Aplikasi Distribusi & Penyaluran Bantuan | DREAMS',
     description:
       'Kelola data penyaluran bantuan sebagai bagian dari aktivitas lembaga dengan DREAMS. Ajukan demo.',
+    ogDescription:
+      'Catat penyaluran bantuan secara rapi, satu sistem dengan data donasi. Lihat fitur distribusi bantuan DREAMS.',
   },
   {
     path: '/demo',
@@ -64,6 +79,8 @@ export const routes = [
     title: 'Ajukan Demo Gratis DREAMS – Aplikasi Pengelolaan Donasi',
     description:
       'Isi formulir untuk menjadwalkan demo DREAMS, sistem pengelolaan donatur, transaksi, dan analitik RFM untuk lembaga sosial.',
+    ogDescription:
+      'Ingin melihat DREAMS langsung? Isi formulir singkat untuk menjadwalkan demo bersama tim kami.',
   },
 ]
 

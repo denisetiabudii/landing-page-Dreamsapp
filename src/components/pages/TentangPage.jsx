@@ -1,6 +1,5 @@
 import PageShell from '../layout/PageShell'
-import About from '../sections/About'
-import WhyDreams from '../sections/WhyDreams'
+import AboutDetail from '../sections/AboutDetail'
 import CTA from '../sections/CTA'
 
 function TentangPage() {
@@ -10,8 +9,7 @@ function TentangPage() {
       title="Tentang DREAMS"
       lead="Sistem pengelolaan donasi dan operasional lembaga sosial untuk mendukung aktivitas lembaga secara lebih terstruktur."
     >
-      <About />
-      <WhyDreams />
+      <AboutDetail />
       <CTA />
     </PageShell>
   )

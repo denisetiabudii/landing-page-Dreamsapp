@@ -416,8 +416,8 @@ function About() {
                 transaksi, prospek, analitik, hingga penyaluran bantuan.
               </p>
 
-              <a href="/fitur" className="about__link">
-                Kenali fitur DREAMS
+              <a href="/tentang" className="about__link">
+                Kenali DREAMS lebih dekat
                 <ArrowUpRight size={18} strokeWidth={2} />
               </a>
             </div>

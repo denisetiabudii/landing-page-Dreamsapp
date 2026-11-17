@@ -6,34 +6,34 @@ export { default as dreamsDark } from './images/brand/dreams-dark.webp'
 
 export { default as dreamsLight } from './images/brand/dreams-light.webp'
 
-export { default as deftDark } from './images/brand/bydeft-dark.png'
+export { default as deftDark } from './images/brand/bydeft-dark.webp'
 
 // =========================================
 // PRODUCT SHOWCASE
 // =========================================
 
 // Hero Showcase
-export { default as heroDashboardDonatur } from './images/showcase/dreams-hero-dashboard-donatur.png'
+export { default as heroDashboardDonatur } from './images/showcase/dreams-hero-dashboard-donatur.webp'
 
 // RFM Health Index
-export { default as rfmHealthComparison } from './images/showcase/rfm-health-comparison.png'
+export { default as rfmHealthComparison } from './images/showcase/rfm-health-comparison.webp'
 
 // RFM Segment Comparison
-export { default as rfmSegmentComparison } from './images/showcase/rfm-segment-comparison.png'
+export { default as rfmSegmentComparison } from './images/showcase/rfm-segment-comparison.webp'
 
 // RFM Distribution Comparison
-export { default as rfmDistributionComparison } from './images/showcase/rfm-distribution-comparison.png'
+export { default as rfmDistributionComparison } from './images/showcase/rfm-distribution-comparison.webp'
 
 // RFM Heatmap Matrix
-export { default as rfmHeatmapMatrix } from './images/showcase/rfm-heatmap-matrix.png'
+export { default as rfmHeatmapMatrix } from './images/showcase/rfm-heatmap-matrix.webp'
 
 // Donor Profile Detail
 export { default as donorProfileDetail } from './images/showcase/donor-profile-detail.webp'
 
 // Donation Program Analytics
-export { default as donationProgramAnalytics } from './images/showcase/donation-program-analytics.png'
+export { default as donationProgramAnalytics } from './images/showcase/donation-program-analytics.webp'
 
-export { default as buktiDonasi } from './images/showcase/bukti-donasi.png'
+export { default as buktiDonasi } from './images/showcase/bukti-donasi.webp'
 
 // =========================================
 // SECTION IMAGES

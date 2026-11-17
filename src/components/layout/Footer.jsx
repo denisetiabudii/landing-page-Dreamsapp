@@ -75,6 +75,16 @@ function FacebookIcon() {
 // FOOTER COMPONENT
 // =========================================
 
+const footerPages = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang', href: '/tentang' },
+  { label: 'Fitur', href: '/fitur' },
+  { label: 'Manajemen Donatur', href: '/fitur/manajemen-donatur', sub: true },
+  { label: 'Analitik RFM', href: '/fitur/analitik-rfm', sub: true },
+  { label: 'Distribusi Bantuan', href: '/fitur/distribusi-bantuan', sub: true },
+  { label: 'Ajukan Demo', href: '/demo' },
+]
+
 function Footer() {
   return (
     <>
@@ -94,30 +104,23 @@ function Footer() {
               </p>
             </div>
 
-            {/* Office Location */}
-            <section
-              className="footer__locations"
-              aria-labelledby="footer-locations-title"
-            >
-              <h3 id="footer-locations-title">Lokasi Kantor</h3>
+            {/* Pages */}
+            <nav className="footer__pages" aria-labelledby="footer-pages-title">
+              <h3 id="footer-pages-title">Halaman</h3>
 
-              <a
-                href={siteConfig.officeMapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer__location-link"
-                aria-label="Buka lokasi kantor DREAMS di Google Maps"
-              >
-                <MapPin size={18} aria-hidden="true" />
-
-                <div>
-                  <strong>Lokasi Kantor DREAMS</strong>
-                  <span>Lihat lokasi melalui Google Maps</span>
-                </div>
-
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-            </section>
+              <ul>
+                {footerPages.map((page) => (
+                  <li key={page.href}>
+                    <a
+                      href={page.href}
+                      className={page.sub ? 'footer__pages-sub' : undefined}
+                    >
+                      {page.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             {/* Contact */}
             <section
@@ -184,6 +187,31 @@ function Footer() {
                 </a>
               </div>
             </section>
+
+            {/* Office Location */}
+            <section
+              className="footer__locations"
+              aria-labelledby="footer-locations-title"
+            >
+              <h3 id="footer-locations-title">Lokasi Kantor</h3>
+
+              <a
+                href={siteConfig.officeMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer__location-link"
+                aria-label="Buka lokasi kantor DREAMS di Google Maps"
+              >
+                <MapPin size={18} aria-hidden="true" />
+
+                <div>
+                  <strong>Lokasi Kantor DREAMS</strong>
+                  <span>Lihat lokasi melalui Google Maps</span>
+                </div>
+
+                <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </section>
           </div>
 
           {/* Footer Bottom */}
@@ -243,14 +271,16 @@ function Footer() {
         .footer .footer__main {
           display: grid;
           grid-template-columns:
-            minmax(0, 0.9fr)
-            minmax(0, 1.35fr)
-            minmax(0, 0.9fr);
-          gap: clamp(32px, 5vw, 72px);
+            minmax(0, 1.25fr)
+            minmax(0, 0.85fr)
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+          gap: clamp(28px, 4vw, 56px);
           padding-bottom: 48px;
         }
 
         .footer .footer__brand,
+        .footer .footer__pages,
         .footer .footer__locations,
         .footer .footer__contact,
         .footer .footer__access {
@@ -284,6 +314,7 @@ function Footer() {
            COLUMN HEADINGS
         ========================================= */
 
+        .footer .footer__pages h3,
         .footer .footer__contact h3,
         .footer .footer__locations h3,
         .footer .footer__access h3 {
@@ -293,12 +324,16 @@ function Footer() {
           font-weight: 700;
         }
 
+        .footer .footer__pages h3,
+        .footer .footer__contact h3,
         .footer .footer__locations h3,
         .footer .footer__access h3 {
           position: relative;
           padding-bottom: 12px;
         }
 
+        .footer .footer__pages h3::after,
+        .footer .footer__contact h3::after,
         .footer .footer__locations h3::after,
         .footer .footer__access h3::after {
           position: absolute;
@@ -464,6 +499,47 @@ function Footer() {
         }
 
         /* =========================================
+           FOOTER PAGES
+        ========================================= */
+
+        .footer .footer__pages ul {
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+        }
+
+        .footer .footer__pages a {
+          color: #d5e5f5;
+          font-size: 14px;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .footer .footer__pages a:hover {
+          color: #ffffff;
+        }
+
+        .footer .footer__pages .footer__pages-sub {
+          position: relative;
+          padding-left: 16px;
+          color: #b7cfe6;
+          font-size: 13px;
+        }
+
+        .footer .footer__pages .footer__pages-sub::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 0;
+          width: 8px;
+          height: 1px;
+          background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* =========================================
            FOOTER BOTTOM
         ========================================= */
 
@@ -504,15 +580,6 @@ function Footer() {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 36px;
           }
-
-          .footer .footer__locations {
-            grid-column: 1 / -1;
-            grid-row: 2;
-          }
-
-          .footer .footer__access {
-            margin-top: 24px;
-          }
         }
 
         /* =========================================
@@ -528,11 +595,6 @@ function Footer() {
             grid-template-columns: 1fr;
             gap: 32px;
             padding-bottom: 36px;
-          }
-
-          .footer .footer__locations {
-            grid-column: auto;
-            grid-row: auto;
           }
 
           .footer .footer__access {

@@ -211,6 +211,9 @@ function Hero() {
           alt=""
           aria-hidden="true"
           className="hero__background"
+          width="1672"
+          height="941"
+          fetchPriority="high"
         />
 
         <Container>
@@ -304,6 +307,9 @@ function Hero() {
                     src={heroDashboardDonatur}
                     alt="Dasbor Donatur DREAMS"
                     className="hero__dashboard-screen"
+                    width="1340"
+                    height="628"
+                    fetchPriority="high"
                   />
                 </button>
 
@@ -375,6 +381,24 @@ function Hero() {
           position: relative;
           overflow: hidden;
           padding: 120px 0 110px;
+        }
+
+        /* Pudar ke warna section berikutnya (Mengapa Memilih DREAMS) */
+        .hero::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          z-index: 0;
+          height: 170px;
+          background: linear-gradient(
+            to bottom,
+            rgba(11, 39, 72, 0) 0%,
+            rgba(11, 39, 72, 0.5) 55%,
+            #0b2748 100%
+          );
+          pointer-events: none;
         }
 
         .hero__background {
