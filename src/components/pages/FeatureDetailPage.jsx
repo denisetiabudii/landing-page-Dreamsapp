@@ -11,7 +11,11 @@ function FeatureDetailPage({ slug }) {
   if (!page) return null
 
   return (
-    <PageShell title={page.heading} lead={page.lead}>
+    <PageShell
+      path={`/fitur/${slug}`}
+      title={page.heading}
+      lead={page.lead}
+    >
       <section className="feature-detail">
         <style>{`
           .feature-detail {

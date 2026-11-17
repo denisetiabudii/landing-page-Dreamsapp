@@ -13,7 +13,14 @@ import { siteConfig } from '../../data/siteConfig'
 // NAVBAR COMPONENT
 // =========================================
 
-function Navbar() {
+// solid  : navbar langsung berlatar putih (halaman tanpa hero gelap/foto).
+// path   : path halaman saat ini, untuk menandai menu aktif.
+function Navbar({ solid = false, path = '' }) {
+  const isActive = (href) =>
+    href !== '#kontak' &&
+    path !== '' &&
+    (href === path || (href !== '/' && path.startsWith(`${href}/`)))
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -194,8 +201,13 @@ function Navbar() {
           transition: width 250ms ease;
         }
 
-        .navbar__link:hover::after {
+        .navbar__link:hover::after,
+        .navbar__link.is-active::after {
           width: 100%;
+        }
+
+        .navbar__link.is-active {
+          color: #0176d3;
         }
 
         /* =========================================
@@ -465,6 +477,10 @@ function Navbar() {
           transition:
             color 200ms ease,
             padding 200ms ease;
+        }
+
+        .navbar__mobile-link.is-active {
+          color: #0176d3;
         }
 
         .navbar__mobile-link:hover {
@@ -761,7 +777,7 @@ function Navbar() {
 
       <header
         className={`navbar ${
-          isScrolled ? 'is-scrolled' : ''
+          isScrolled || solid ? 'is-scrolled' : ''
         } ${isMenuOpen ? 'is-menu-open' : ''}`}
       >
         <Container>
@@ -781,7 +797,14 @@ function Navbar() {
 
             <nav className="navbar__navigation" aria-label="Navigasi utama">
               {navigation.map((item) => (
-                <a key={item.href} href={item.href} className="navbar__link">
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`navbar__link ${
+                    isActive(item.href) ? 'is-active' : ''
+                  }`}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                >
                   {item.label}
                 </a>
               ))}
@@ -856,7 +879,10 @@ function Navbar() {
               <a
                 key={item.href}
                 href={item.href}
-                className="navbar__mobile-link"
+                className={`navbar__mobile-link ${
+                  isActive(item.href) ? 'is-active' : ''
+                }`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
                 onClick={closeMenu}
               >
                 <span>{item.label}</span>

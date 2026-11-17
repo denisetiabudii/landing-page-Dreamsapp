@@ -1,15 +1,15 @@
-import DemoNavbar from '../demosection/DemoNavbar'
+import Navbar from './Navbar'
 import Footer from './Footer'
 import FloatingActions from '../common/FloatingActions'
 import Container from '../common/Container'
 
 // Kerangka halaman biasa (non-beranda): navbar, judul h1, isi, footer.
-function PageShell({ title, lead, children }) {
+function PageShell({ path, title, lead, children }) {
   return (
     <>
       <style>{`
         .page-intro {
-          padding: calc(var(--navbar-height, 88px) + 48px) 0 40px;
+          padding: calc(var(--navbar-height, 80px) + 48px) 0 40px;
           background:
             radial-gradient(ellipse at 12% 10%, rgb(8 123 238 / 9%), transparent 40%),
             var(--color-surface);
@@ -33,7 +33,7 @@ function PageShell({ title, lead, children }) {
         }
       `}</style>
 
-      <DemoNavbar />
+      <Navbar solid path={path} />
 
       <main>
         <header className="page-intro">

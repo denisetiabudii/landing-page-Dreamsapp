@@ -6,6 +6,7 @@ import CTA from '../sections/CTA'
 function TentangPage() {
   return (
     <PageShell
+      path="/tentang"
       title="Tentang DREAMS"
       lead="Sistem pengelolaan donasi dan operasional lembaga sosial untuk mendukung aktivitas lembaga secara lebih terstruktur."
     >

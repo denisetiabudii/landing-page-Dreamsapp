@@ -10,6 +10,7 @@ import { featurePages } from '../../data/featurePages'
 function FiturPage() {
   return (
     <PageShell
+      path="/fitur"
       title="Fitur DREAMS untuk Pengelolaan Donasi"
       lead="Kelola donatur, transaksi, prospek, analitik RFM, distribusi bantuan, dan komunikasi WhatsApp dalam satu sistem."
     >
