@@ -15,6 +15,7 @@ import Hero from '../sections/Hero'
 import WhyDreams from '../sections/WhyDreams'
 import ProductShowcase from '../sections/ProductShowcase'
 import HowItWorks from '../sections/HowItWorks'
+import Faq from '../sections/Faq'
 import Testimonials from '../sections/Testimonials'
 import Partners from '../sections/Partners'
 import CTA from '../sections/CTA'
@@ -66,6 +67,7 @@ function LandingPage() {
         <WhyDreams />
         <ProductShowcase />
         <HowItWorks />
+        <Faq />
         <Testimonials />
         <Partners />
         <CTA />

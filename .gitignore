@@ -26,3 +26,5 @@ daftar-file.txt
 *.zip
 
 .deploy-preview-nginx.conf
+
+/credentials/

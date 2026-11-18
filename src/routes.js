@@ -104,6 +104,45 @@ export const routes = [
       'Kelola template pesan dan WhatsApp Blast untuk donatur lewat modul DREAMS.',
   },
   {
+    path: '/blog',
+    page: 'BlogPage',
+    title: 'Blog DREAMS – Panduan Pengelolaan Donasi',
+    description:
+      'Panduan dan wawasan seputar pengelolaan donasi, donatur, analitik RFM, dan transparansi untuk lembaga sosial.',
+    ogDescription:
+      'Panduan seputar pengelolaan donasi, donatur, dan transparansi untuk lembaga sosial.',
+  },
+  {
+    path: '/blog/apa-itu-analisis-rfm-donatur',
+    page: 'BlogPostPage',
+    props: { slug: 'apa-itu-analisis-rfm-donatur' },
+    title: 'Apa Itu Analisis RFM Donatur dan Cara Memakainya | DREAMS',
+    description:
+      'Pelajari analisis RFM (recency, frequency, monetary) dan cara lembaga sosial memakainya untuk mengelompokkan donatur dan menentukan pendekatan yang tepat.',
+    ogDescription:
+      'Kenali donatur lewat recency, frequency, dan monetary. Panduan analisis RFM untuk lembaga sosial.',
+  },
+  {
+    path: '/blog/cara-mengelola-data-donatur-lembaga-sosial',
+    page: 'BlogPostPage',
+    props: { slug: 'cara-mengelola-data-donatur-lembaga-sosial' },
+    title: 'Cara Mengelola Data Donatur Lembaga Sosial | DREAMS',
+    description:
+      'Panduan praktis merapikan data donatur lembaga sosial: satu sumber data, format seragam, riwayat donasi, dan tindak lanjut yang terdokumentasi.',
+    ogDescription:
+      'Enam langkah praktis agar data donatur lembaga Anda tidak tercecer.',
+  },
+  {
+    path: '/blog/bukti-donasi-transparansi-lembaga-sosial',
+    page: 'BlogPostPage',
+    props: { slug: 'bukti-donasi-transparansi-lembaga-sosial' },
+    title: 'Pentingnya Bukti Donasi untuk Transparansi Lembaga | DREAMS',
+    description:
+      'Kenali isi bukti donasi yang baik dan alasan bukti donasi membantu lembaga sosial membangun kepercayaan serta mendokumentasikan donasi.',
+    ogDescription:
+      'Isi bukti donasi yang baik dan manfaatnya bagi donatur serta lembaga sosial.',
+  },
+  {
     path: '/demo',
     page: 'DemoPage',
     title: 'Ajukan Demo Gratis DREAMS – Aplikasi Pengelolaan Donasi',

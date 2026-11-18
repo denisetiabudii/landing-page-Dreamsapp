@@ -107,8 +107,12 @@ const footerPages = [
   { label: 'Tentang', href: '/tentang' },
   { label: 'Fitur', href: '/fitur' },
   { label: 'Manajemen Donatur', href: '/fitur/manajemen-donatur', sub: true },
+  { label: 'Pengelolaan Transaksi', href: '/fitur/pengelolaan-transaksi', sub: true },
+  { label: 'Manajemen Prospek', href: '/fitur/manajemen-prospek', sub: true },
   { label: 'Analitik RFM', href: '/fitur/analitik-rfm', sub: true },
   { label: 'Distribusi Bantuan', href: '/fitur/distribusi-bantuan', sub: true },
+  { label: 'Komunikasi WhatsApp', href: '/fitur/komunikasi-whatsapp', sub: true },
+  { label: 'Blog', href: '/blog' },
   { label: 'Ajukan Demo', href: '/demo' },
 ]
 

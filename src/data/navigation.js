@@ -6,5 +6,6 @@ export const navigation = [
   { label: 'Fitur', href: '/fitur' },
   { label: 'Produk', href: '/#produk' },
   { label: 'Cara Kerja', href: '/#cara-kerja' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Kontak', href: '#kontak' },
 ]
