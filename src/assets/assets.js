@@ -35,6 +35,8 @@ export { default as donationProgramAnalytics } from './images/showcase/donation-
 
 export { default as buktiDonasi } from './images/showcase/bukti-donasi.webp'
 
+export { default as whatsappBlast } from './images/showcase/whatsapp-blast.webp'
+
 // =========================================
 // SECTION IMAGES
 // =========================================

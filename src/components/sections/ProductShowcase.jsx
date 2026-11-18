@@ -14,6 +14,7 @@ import {
   donorProfileDetail,
   donationProgramAnalytics,
   buktiDonasi,
+  whatsappBlast,
 } from '../../assets/assets'
 
 // =========================================
@@ -98,6 +99,18 @@ const showcaseItems = [
     footerLabel: 'BUKTI DONASI • PDF',
     accent: '#278c68',
     tint: '#e6f7ef',
+  },
+  {
+    category: 'KOMUNIKASI DONATUR',
+    title: 'WhatsApp Blast',
+    description:
+      'Kelola pengiriman pesan WhatsApp kepada donatur, atur jadwal dan template, serta pantau status pesan mulai dari antrean, terkirim, diterima, hingga dibaca.',
+    image: whatsappBlast,
+    imageAlt:
+      'Halaman WhatsApp Blast DREAMS lengkap dengan menu samping, filter, dan ringkasan status pengiriman pesan',
+    footerLabel: 'KOMUNIKASI WHATSAPP',
+    accent: '#4f46e5',
+    tint: '#eceafe',
   },
 ]
 
@@ -282,7 +295,11 @@ function ProductShowcase() {
 
       const deltaX = event.clientX - drag.startX
 
-      if (Math.abs(deltaX) > 5) {
+      // Sentuhan diberi toleransi lebih besar agar ketukan biasa tidak
+      // dianggap geseran.
+      const threshold = event.pointerType === 'touch' ? 10 : 5
+
+      if (Math.abs(deltaX) > threshold) {
         drag.moved = true
       }
 
@@ -363,11 +380,7 @@ function ProductShowcase() {
         '--card-accent': item.accent,
         '--card-tint': item.tint,
       }}
-      onClick={() => {
-        if (!isDuplicate) {
-          handleOpenModal(item)
-        }
-      }}
+      onClick={() => handleOpenModal(item)}
     >
       <div className="showcase-item__content">
         <span className="showcase-item__category">{item.category}</span>
@@ -1317,6 +1330,7 @@ function ProductShowcase() {
         onPointerMove={handleDragMove}
         onPointerUp={handleDragEnd}
         onPointerCancel={handleDragEnd}
+        onPointerLeave={handleDragEnd}
         onClickCapture={handleClickCapture}
       >
         <div ref={trackRef} className="showcase__track">
