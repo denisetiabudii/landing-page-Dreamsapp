@@ -84,11 +84,12 @@ function FeatureDetailPage({ slug }) {
             line-height: 1.75;
           }
 
-          /* Panel berwarna agar gambar tampilan aplikasi lebih menonjol */
+          /* Panel berwarna agar gambar lebih menonjol */
           .feature-detail__images {
             display: grid;
+            justify-items: center;
             gap: 28px;
-            padding: 40px;
+            padding: 40px 24px;
             border-radius: 28px;
             background: linear-gradient(
               145deg,
@@ -98,14 +99,12 @@ function FeatureDetailPage({ slug }) {
             border: 1px solid color-mix(in srgb, var(--card-color) 25%, #ffffff);
           }
 
+          /* Ilustrasi persegi dengan latar transparan */
           .feature-detail__images img {
             display: block;
-            width: 100%;
+            width: min(100%, 460px);
             height: auto;
-            border: 1px solid color-mix(in srgb, var(--card-color) 20%, #ffffff);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            box-shadow: 0 28px 56px -28px var(--card-color);
+            filter: drop-shadow(0 24px 30px rgba(8, 30, 70, 0.22));
           }
 
           .feature-detail__spacer {
@@ -114,9 +113,8 @@ function FeatureDetailPage({ slug }) {
 
           @media (max-width: 640px) {
             .feature-detail__images {
-              padding: 16px;
+              padding: 24px 12px;
               border-radius: 20px;
-              gap: 16px;
             }
           }
 
@@ -183,6 +181,8 @@ function FeatureDetailPage({ slug }) {
                 key={image.alt}
                 src={image.src}
                 alt={image.alt}
+                width="1254"
+                height="1254"
                 loading="lazy"
               />
             ))}

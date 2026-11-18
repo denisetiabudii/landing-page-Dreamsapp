@@ -1181,7 +1181,7 @@ const Features = () => {
       <section className="features">
         <Container>
           <SectionHeading
-            eyebrow="DREAMS FEATURES"
+            eyebrow="FITUR DREAMS"
             title="Satu platform untuk mengelola donasi"
             description="Kelola hubungan donor, pantau performa program, dan optimalkan strategi fundraising dalam satu ekosistem."
           />

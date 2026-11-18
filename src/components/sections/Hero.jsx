@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { ArrowRight, PlayCircle, CheckCircle2, X } from 'lucide-react'
+import { ArrowRight, PlayCircle, CheckCircle2, Play, X } from 'lucide-react'
 
 import Container from '../common/Container'
 import Button from '../common/Button'
@@ -75,6 +75,7 @@ function Hero() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const heroRef = useRef(null)
+  const videoRef = useRef(null)
   const backgroundRef = useRef(null)
 
   // =========================================
@@ -184,6 +185,10 @@ function Hero() {
     window.addEventListener('keydown', handleKeyDown)
 
     document.body.style.overflow = 'hidden'
+
+    // Putar otomatis saat modal dibuka. Kalau browser menolak, pengguna
+    // tetap bisa menekan tombol play pada kontrol video.
+    videoRef.current?.play()?.catch(() => {})
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
@@ -300,7 +305,7 @@ function Hero() {
                   onPointerMove={trackPointerPosition}
                   onPointerLeave={clearPointerPosition}
                   onClick={() => setIsModalOpen(true)}
-                  aria-label="Perbesar tampilan dasbor DREAMS"
+                  aria-label="Putar video tampilan aplikasi DREAMS"
                   aria-haspopup="dialog"
                 >
                   <img
@@ -311,12 +316,18 @@ function Hero() {
                     height="628"
                     fetchPriority="high"
                   />
+
+                  <span className="hero__play-scrim" aria-hidden="true" />
+
+                  <span className="hero__play-badge" aria-hidden="true">
+                    <Play fill="currentColor" />
+                  </span>
                 </button>
 
                 {/* KETERANGAN DASHBOARD MOBILE */}
 
                 <div className="hero__mobile-dashboard-caption">
-                  Tampilan aplikasi DREAMS
+                  Ketuk untuk menonton video aplikasi DREAMS
                 </div>
               </div>
             </div>
@@ -334,36 +345,51 @@ function Hero() {
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="hero__modal-content"
+            className="hero__modal-content hero__modal-content--video"
             onClick={(event) => event.stopPropagation()}
             role="dialog"
             aria-modal="true"
-            aria-label="Dasbor Donatur DREAMS"
+            aria-label="Video aplikasi DREAMS"
           >
             {/* HEADER MODAL */}
 
             <div className="hero__modal-header">
-              <h3 className="hero__modal-title">Tampilan Aplikasi DREAMS</h3>
+              <h3 className="hero__modal-title">Video Aplikasi DREAMS</h3>
 
               <button
                 type="button"
                 className="hero__modal-close"
                 onClick={() => setIsModalOpen(false)}
-                aria-label="Tutup pratinjau"
+                aria-label="Tutup video"
               >
                 <X size={24} />
               </button>
             </div>
 
-            {/* GAMBAR DASHBOARD */}
+            {/* VIDEO (hanya dimuat saat modal dibuka) */}
 
-            <div className="hero__modal-image-wrapper">
-              <img
-                src={heroDashboardDonatur}
-                alt="Detail Dasbor Donatur DREAMS"
-                className="hero__modal-img"
+            <div className="hero__video-frame">
+              <video
+                ref={videoRef}
+                className="hero__video"
+                src={siteConfig.demoVideoSrc}
+                poster={siteConfig.demoVideoPoster}
+                controls
+                autoPlay
+                playsInline
+                preload="metadata"
+                aria-label="Video aplikasi DREAMS"
               />
             </div>
+
+            <a
+              className="hero__video-link"
+              href={siteConfig.demoVideoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Tonton juga di Instagram
+            </a>
           </div>
         </div>
       )}
@@ -572,7 +598,7 @@ function Hero() {
           align-items: center;
           justify-content: center;
           padding: 24px;
-          background: rgba(16, 45, 80, 0.85);
+          background: rgba(4, 10, 22, 0.9);
           backdrop-filter: blur(6px);
           animation: fadeIn 0.25s ease forwards;
         }
@@ -1076,6 +1102,165 @@ function Hero() {
             width: 36px;
             height: 36px;
           }
+        }
+
+        /* =========================================================
+           VIDEO HERO: ikon play + modal video
+        ========================================================= */
+
+        /* Lapisan layar: gelap kebiruan agar ikon play kontras, dengan tepi
+           yang menggelap seperti layar sungguhan (menyatu dengan bezel) dan
+           kilau kaca diagonal */
+        .hero__play-scrim {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          background:
+            radial-gradient(
+              circle at center,
+              rgba(8, 24, 54, 0.6) 0%,
+              rgba(8, 24, 54, 0.46) 60%,
+              rgba(6, 16, 34, 0.5) 100%
+            );
+          box-shadow:
+            inset 0 0 0 1px rgba(4, 10, 22, 0.55),
+            inset 0 0 26px rgba(4, 10, 22, 0.5);
+          pointer-events: none;
+          transition: opacity 250ms ease;
+        }
+
+        .hero__play-scrim::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            115deg,
+            rgba(255, 255, 255, 0.16) 0%,
+            rgba(255, 255, 255, 0.05) 28%,
+            rgba(255, 255, 255, 0) 46%
+          );
+        }
+
+        /* Desktop: layar memancarkan cahaya biru tipis ke bezel laptop */
+        @media (min-width: 1025px) {
+          .hero__laptop-screen-wrapper {
+            box-shadow:
+              0 0 0 1px rgba(8, 20, 40, 0.5),
+              0 0 22px rgba(96, 156, 255, 0.35);
+          }
+        }
+
+        .hero__laptop-screen-wrapper:hover .hero__play-scrim,
+        .hero__laptop-screen-wrapper:focus-visible .hero__play-scrim {
+          opacity: 0.8;
+        }
+
+        .hero__play-badge {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: clamp(44px, 13%, 84px);
+          aspect-ratio: 1;
+          border-radius: 50%;
+          color: #087bee;
+          background: #ffffff;
+          box-shadow:
+            0 0 0 8px rgba(255, 255, 255, 0.28),
+            0 10px 30px rgba(0, 0, 0, 0.45);
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          animation: heroPlayPulse 2.4s ease-out infinite;
+        }
+
+        .hero__play-badge svg {
+          width: 42%;
+          height: 42%;
+          margin-left: 6%;
+        }
+
+        @keyframes heroPlayPulse {
+          0% {
+            box-shadow:
+              0 0 0 0 rgba(255, 255, 255, 0.7),
+              0 10px 30px rgba(0, 0, 0, 0.45);
+          }
+          70%,
+          100% {
+            box-shadow:
+              0 0 0 22px rgba(255, 255, 255, 0),
+              0 10px 30px rgba(0, 0, 0, 0.45);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero__play-badge {
+            animation: none;
+          }
+        }
+
+        /* Jendela video bertema gelap (video berlatar putih jadi lebih menonjol) */
+        .hero__modal-content.hero__modal-content--video {
+          max-width: 420px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: linear-gradient(160deg, #0d2c52 0%, #091d35 100%);
+          box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero__modal-content--video .hero__modal-header {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          background: rgba(9, 29, 53, 0.96);
+        }
+
+        .hero__modal-content--video .hero__modal-title {
+          color: #ffffff;
+        }
+
+        .hero__modal-content--video .hero__modal-close {
+          border: 1px solid rgba(255, 255, 255, 0.22);
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero__modal-content--video .hero__modal-close:hover {
+          border-color: #ffffff;
+          color: #091d35;
+          background: #ffffff;
+        }
+
+        .hero__video-frame {
+          width: 100%;
+          padding: 0 12px 8px;
+        }
+
+        .hero__video {
+          display: block;
+          width: auto;
+          max-width: 100%;
+          max-height: min(70dvh, 720px);
+          margin: 0 auto;
+          border-radius: 12px;
+          background: #000000;
+          box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.14),
+            0 18px 44px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero__video-link {
+          display: block;
+          padding: 6px 12px 18px;
+          color: #8cc8ff;
+          font-size: 14px;
+          font-weight: 600;
+          text-align: center;
+        }
+
+        .hero__video-link:hover {
+          text-decoration: underline;
+          text-underline-offset: 4px;
         }
       `}</style>
     </>

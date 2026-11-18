@@ -1,20 +1,19 @@
 // =========================================
 // KONTEN HALAMAN DETAIL FITUR (/fitur/:slug)
 // Teks diambil dari deskripsi yang sudah ada di landing page.
+// Gambar sementara memakai ilustrasi yang sama dengan kartu bertumpuk di /fitur;
+// ganti dengan tangkapan layar aplikasi bila sudah tersedia.
 // Perlu ditinjau/diperkaya oleh tim produk sebelum dianggap final,
 // karena isi halaman inilah yang dibaca mesin pencari.
 // =========================================
 
 import {
-  buktiDonasi,
-  donationProgramAnalytics,
-  donorProfileDetail,
+  featureAnalitikRfm,
   featureDistribusi,
+  featureDonatur,
   featureKomunikasi,
   featureProspek,
-  rfmHeatmapMatrix,
-  rfmHealthComparison,
-  rfmSegmentComparison,
+  featureTransaksi,
 } from '../assets/assets'
 
 export const featurePages = {
@@ -36,12 +35,7 @@ export const featurePages = {
         text: 'Data donatur menjadi dasar untuk pencatatan transaksi, manajemen prospek, dan analitik RFM.',
       },
     ],
-    images: [
-      {
-        src: donorProfileDetail,
-        alt: 'Tampilan detail profil donatur di DREAMS',
-      },
-    ],
+    images: [{ src: featureDonatur, alt: 'Ilustrasi manajemen donatur di DREAMS' }],
   },
 
   'analitik-rfm': {
@@ -66,17 +60,7 @@ export const featurePages = {
         text: 'Gunakan dashboard dan analitik RFM untuk melihat aktivitas transaksi, pencapaian target, serta karakteristik donatur.',
       },
     ],
-    images: [
-      {
-        src: rfmSegmentComparison,
-        alt: 'Perbandingan segmen donatur pada analitik RFM DREAMS',
-      },
-      {
-        src: rfmHealthComparison,
-        alt: 'Perbandingan indeks kesehatan donatur pada analitik RFM DREAMS',
-      },
-      { src: rfmHeatmapMatrix, alt: 'Matriks heatmap RFM donatur di DREAMS' },
-    ],
+    images: [{ src: featureAnalitikRfm, alt: 'Ilustrasi analitik RFM donatur di DREAMS' }],
   },
 
   'distribusi-bantuan': {
@@ -93,12 +77,7 @@ export const featurePages = {
         text: 'Pencatatan yang terstruktur membantu lembaga mengelola kegiatan secara lebih transparan dan akuntabel.',
       },
     ],
-    images: [
-      {
-        src: featureDistribusi,
-        alt: 'Ilustrasi pengelolaan distribusi bantuan di DREAMS',
-      },
-    ],
+    images: [{ src: featureDistribusi, alt: 'Ilustrasi pengelolaan distribusi bantuan di DREAMS' }],
   },
 
   'pengelolaan-transaksi': {
@@ -119,10 +98,7 @@ export const featurePages = {
         text: 'Buat bukti donasi dengan desain yang dapat disesuaikan dan dihasilkan secara otomatis dalam format PDF sebagai dokumentasi donasi bagi donatur.',
       },
     ],
-    images: [
-      { src: buktiDonasi, alt: 'Tampilan bukti donasi digital DREAMS dalam format PDF' },
-      { src: donationProgramAnalytics, alt: 'Analitik kinerja program donasi di DREAMS' },
-    ],
+    images: [{ src: featureTransaksi, alt: 'Ilustrasi pengelolaan transaksi donasi di DREAMS' }],
   },
 
   'manajemen-prospek': {
