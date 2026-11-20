@@ -32,14 +32,39 @@ function Partners() {
           object-fit: contain;
         }
 
-        @media (max-width: 480px) {
+        /* Tablet dan mobile: grid 3 kolom agar enam logo rapi (3 x 2). */
+        @media (max-width: 1024px) {
           .partners__list {
-            gap: 20px 32px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 28px 24px;
+            justify-items: center;
+            align-items: center;
+            max-width: 720px;
+            margin-inline: auto;
+          }
+
+          .partners__item,
+          .partners__item a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
           }
 
           .partners__item img {
-            max-width: 110px;
-            height: 44px;
+            max-width: 100%;
+            height: 48px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .partners__list {
+            gap: 24px 12px;
+          }
+
+          .partners__item img {
+            height: 38px;
           }
         }
       `}</style>
